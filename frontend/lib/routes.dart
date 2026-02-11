@@ -7,6 +7,8 @@ import 'ui/add_product_screen.dart';
 import 'ui/admin_panel_screen.dart';
 import 'ui/forgot_password_screen.dart';
 import 'ui/category_screen.dart';
+import 'ui/profile_screen.dart';
+import 'ui/dashboard_screen.dart';
 import 'providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,6 +33,8 @@ final routerProvider = Provider<GoRouter>((ref) {
     GoRoute(path: '/forgot-password', builder: (ctx, state) => const ForgotPasswordScreen()),
     GoRoute(path: '/admin', builder: (ctx, state) => const AdminPanelScreen()),
     GoRoute(path: '/categories', builder: (ctx, state) => const CategoryScreen()),
+    GoRoute(path: '/profile', builder: (ctx, state) => const ProfileScreen()),
+    GoRoute(path: '/dashboard', builder: (ctx, state) => const DashboardScreen()),
     GoRoute(path: '/products/add', builder: (ctx, state) => const AddProductScreen()),
     GoRoute(
       path: '/products/:id',

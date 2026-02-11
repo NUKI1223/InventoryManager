@@ -206,6 +206,30 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
+                color: const Color(0xFFE0E7FF),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.dashboard, color: Color(0xFF6366F1), size: 20),
+            ),
+            tooltip: 'Dashboard',
+            onPressed: () => context.go('/dashboard'),
+          ),
+          IconButton(
+            icon: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFD1FAE5),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.person, color: Color(0xFF10B981), size: 20),
+            ),
+            tooltip: 'Profile',
+            onPressed: () => context.go('/profile'),
+          ),
+          IconButton(
+            icon: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
                 color: const Color(0xFFFECDD3),
                 borderRadius: BorderRadius.circular(12),
               ),
