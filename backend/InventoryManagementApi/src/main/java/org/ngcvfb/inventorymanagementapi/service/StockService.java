@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 @Service
 public class StockService {
     private static final Logger log = LoggerFactory.getLogger(StockService.class);
@@ -77,6 +79,58 @@ public class StockService {
 
     public Page<StockTransaction> getTransactions(Long productId, int page, int size) {
         return stockTxRepo.findByProductId(productId, PageRequest.of(page, size));
+    }
+
+    @Transactional
+    public int bulkAdjustStock(List<Long> productIds, Long changeAmount, String type, String reference, String note, Long userId) {
+        log.info("Bulk adjusting stock for {} products, change: {}, type: {}", productIds.size(), changeAmount, type);
+
+        User u = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        int successCount = 0;
+        for (Long productId : productIds) {
+            try {
+                Product p = productRepo.findById(productId).orElse(null);
+                if (p == null) {
+                    log.warn("Product ID {} not found during bulk adjustment", productId);
+                    continue;
+                }
+
+                long oldStock = p.getCurrentStock();
+                long newStock = oldStock + changeAmount;
+
+                if (newStock < 0) {
+                    log.warn("Insufficient stock for product ID: {}. Skipping.", productId);
+                    continue;
+                }
+
+                p.setCurrentStock(newStock);
+                productRepo.save(p);
+
+                StockTransaction tx = new StockTransaction();
+                tx.setProduct(p);
+                tx.setChangeAmount(changeAmount);
+                tx.setType(type);
+                tx.setReference(reference);
+                tx.setNote(note);
+                tx.setCreatedBy(u);
+                stockTxRepo.save(tx);
+
+                // Check for low stock notifications
+                if (newStock > 0 && newStock <= LOW_STOCK_THRESHOLD && oldStock > LOW_STOCK_THRESHOLD) {
+                    log.warn("Low stock detected for product ID: {} during bulk operation", productId);
+                    notificationService.notifyAllAdminsLowStock(p);
+                }
+
+                successCount++;
+            } catch (Exception e) {
+                log.error("Error adjusting stock for product ID: {}", productId, e);
+            }
+        }
+
+        log.info("Bulk stock adjustment completed. Success: {}/{}", successCount, productIds.size());
+        return successCount;
     }
 }
 

@@ -34,4 +34,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 
     @Query("SELECT COALESCE(SUM(p.currentStock * p.price), 0) FROM Product p WHERE p.id IN :ids")
     BigDecimal sumPriceTimesStockByIds(@Param("ids") List<Long> ids);
+
+    List<Product> findByCurrentStockLessThanOrderByCurrentStockAsc(long threshold);
 }

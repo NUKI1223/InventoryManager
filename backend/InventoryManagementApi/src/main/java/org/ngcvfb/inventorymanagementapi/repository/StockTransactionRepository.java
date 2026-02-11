@@ -7,4 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface StockTransactionRepository extends JpaRepository<StockTransaction, Long> {
     Page<StockTransaction> findByProductId(Long productId, Pageable pageable);
+    Page<StockTransaction> findAllByOrderByCreatedAtDesc(Pageable pageable);
 }

@@ -136,5 +136,31 @@ public class ProductService {
         BigDecimal res = productRepo.sumPriceTimesStockByIds(productIds);
         return res == null ? BigDecimal.ZERO : res;
     }
+
+    @Transactional
+    public void bulkDelete(List<Long> productIds, Long performedBy) {
+        List<Product> products = productRepo.findAllById(productIds);
+        for (Product p : products) {
+            Map<String, Object> details = new HashMap<>();
+            details.put("name", p.getName());
+            details.put("sku", p.getSku());
+            auditService.record(p.getId(), "BULK_DELETE", performedBy, details);
+        }
+        productRepo.deleteAllById(productIds);
+    }
+
+    @Transactional
+    public int bulkUpdatePrice(List<Long> productIds, BigDecimal newPrice, Long performedBy) {
+        List<Product> products = productRepo.findAllById(productIds);
+        for (Product p : products) {
+            Map<String, Object> details = new HashMap<>();
+            details.put("oldPrice", p.getPrice());
+            details.put("newPrice", newPrice);
+            p.setPrice(newPrice);
+            productRepo.save(p);
+            auditService.record(p.getId(), "BULK_PRICE_UPDATE", performedBy, details);
+        }
+        return products.size();
+    }
 }
 

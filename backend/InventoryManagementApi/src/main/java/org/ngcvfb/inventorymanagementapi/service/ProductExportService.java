@@ -45,7 +45,7 @@ public class ProductExportService {
                     r.createCell(1).setCellValue(p.getSku());
                     r.createCell(2).setCellValue(p.getName());
                     r.createCell(3).setCellValue(p.getDescription() == null ? "" : p.getDescription());
-                    r.createCell(4).setCellValue(p.getPrice() == null ? 0.0 : p.getPrice().doubleValue());
+                    r.createCell(4).setCellValue(p.getPrice() != null ? p.getPrice().doubleValue() : 0.0);
                     r.createCell(5).setCellValue(p.getCurrentStock() == null ? 0L : p.getCurrentStock());
                 }
                 if (!page.hasNext()) break;
