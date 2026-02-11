@@ -10,6 +10,7 @@ import 'search_screen.dart';
 import 'stats_screen.dart';
 import 'history_screen.dart';
 import 'category_screen.dart';
+import '../providers/notification_provider.dart';
 
 class ProductListScreen extends ConsumerStatefulWidget {
   const ProductListScreen({super.key});
@@ -201,6 +202,34 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
               context,
               MaterialPageRoute(builder: (_) => const HistoryScreen()),
             ),
+          ),
+          Consumer(
+            builder: (context, ref, _) {
+              final unreadAsync = ref.watch(unreadCountProvider);
+              return IconButton(
+                icon: Badge(
+                  label: unreadAsync.when(
+                    data: (count) => Text('$count'),
+                    loading: () => const SizedBox.shrink(),
+                    error: (_, __) => const SizedBox.shrink(),
+                  ),
+                  isLabelVisible: unreadAsync.maybeWhen(
+                    data: (count) => count > 0,
+                    orElse: () => false,
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFEF3C7),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.notifications, color: Color(0xFFF59E0B), size: 20),
+                  ),
+                ),
+                tooltip: 'Notifications',
+                onPressed: () => context.go('/notifications'),
+              );
+            },
           ),
           IconButton(
             icon: Container(

@@ -17,17 +17,21 @@ import org.springframework.data.domain.PageRequest;
 @Service
 public class StockService {
     private static final Logger log = LoggerFactory.getLogger(StockService.class);
+    private static final int LOW_STOCK_THRESHOLD = 5;
 
     private final ProductRepository productRepo;
     private final StockTransactionRepository stockTxRepo;
     private final UserRepository userRepo;
+    private final NotificationService notificationService;
 
     public StockService(ProductRepository productRepo,
                         StockTransactionRepository stockTxRepo,
-                        UserRepository userRepo) {
+                        UserRepository userRepo,
+                        NotificationService notificationService) {
         this.productRepo = productRepo;
         this.stockTxRepo = stockTxRepo;
         this.userRepo = userRepo;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -61,6 +65,12 @@ public class StockService {
         stockTxRepo.save(tx);
 
         log.info("Stock transaction saved for product ID: {}", productId);
+
+        // Check if stock is low and create notifications
+        if (newStock > 0 && newStock <= LOW_STOCK_THRESHOLD && oldStock > LOW_STOCK_THRESHOLD) {
+            log.warn("Low stock detected for product ID: {}. Creating notifications for admins.", productId);
+            notificationService.notifyAllAdminsLowStock(p);
+        }
 
         return p;
     }
