@@ -1,5 +1,10 @@
 package org.ngcvfb.inventorymanagementapi.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.ngcvfb.inventorymanagementapi.dto.ForgotPasswordRequest;
 import org.ngcvfb.inventorymanagementapi.dto.LoginRequest;
 import org.ngcvfb.inventorymanagementapi.dto.LoginResponse;
@@ -16,6 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "API для аутентификации и регистрации пользователей")
 public class AuthController {
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
@@ -28,6 +34,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Вход в систему", description = "Аутентификация пользователя по логину и паролю")
+    @ApiResponse(responseCode = "200", description = "Успешный вход", content = @Content(schema = @Schema(implementation = LoginResponse.class)))
+    @ApiResponse(responseCode = "401", description = "Неверные учетные данные")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest req) {
         log.info("Login attempt for user: {}", req.getUsername());
         LoginResponse resp = authService.login(req);
@@ -36,6 +45,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Регистрация нового пользователя", description = "Создание нового аккаунта пользователя")
+    @ApiResponse(responseCode = "201", description = "Пользователь успешно зарегистрирован")
+    @ApiResponse(responseCode = "409", description = "Пользователь с таким именем уже существует")
     public ResponseEntity<LoginResponse> register(@RequestBody RegisterRequest req) {
         log.info("Registration attempt for user: {}", req.getUsername());
         LoginResponse resp = authService.register(req);
