@@ -6,7 +6,7 @@ class ApiClient {
   final FlutterSecureStorage storage;
 
   ApiClient(this.dio, this.storage) {
-    dio.options.baseUrl = 'http://10.27.190.82:9000';
+    dio.options.baseUrl = 'http://localhost:9000';
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         final token = await storage.read(key: 'jwt');

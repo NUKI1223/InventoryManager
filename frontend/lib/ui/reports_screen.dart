@@ -26,7 +26,6 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
         '${client.dio.options.baseUrl}$endpoint',
         options: Options(
           responseType: ResponseType.bytes,
-          headers: await client.getAuthHeaders(),
         ),
       );
 
