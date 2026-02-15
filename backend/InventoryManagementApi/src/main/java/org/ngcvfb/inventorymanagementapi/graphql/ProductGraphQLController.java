@@ -1,7 +1,6 @@
 package org.ngcvfb.inventorymanagementapi.graphql;
 
-import org.ngcvfb.inventorymanagementapi.dto.CreateProductRequest;
-import org.ngcvfb.inventorymanagementapi.dto.UpdateProductRequest;
+import org.ngcvfb.inventorymanagementapi.dto.ProductDto;
 import org.ngcvfb.inventorymanagementapi.model.Category;
 import org.ngcvfb.inventorymanagementapi.model.Product;
 import org.ngcvfb.inventorymanagementapi.service.CategoryService;
@@ -14,6 +13,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -36,15 +36,7 @@ public class ProductGraphQLController {
             @Argument Long categoryId
     ) {
         Pageable pageable = PageRequest.of(page != null ? page : 0, size != null ? size : 20);
-        Page<Product> productPage;
-
-        if (search != null && !search.isEmpty()) {
-            productPage = productService.searchProducts(search, pageable);
-        } else if (categoryId != null) {
-            productPage = productService.findByCategory(categoryId, pageable);
-        } else {
-            productPage = productService.findAll(pageable);
-        }
+        Page<Product> productPage = productService.searchProducts(search, categoryId, pageable);
 
         return Map.of(
                 "content", productPage.getContent(),
@@ -57,7 +49,7 @@ public class ProductGraphQLController {
 
     @QueryMapping
     public Product product(@Argument Long id) {
-        return productService.findById(id);
+        return productService.getOne(id);
     }
 
     @QueryMapping
@@ -67,33 +59,34 @@ public class ProductGraphQLController {
 
     @MutationMapping
     public Product createProduct(@Argument CreateProductInput input) {
-        CreateProductRequest request = new CreateProductRequest();
-        request.setSku(input.sku());
-        request.setName(input.name());
-        request.setDescription(input.description());
-        request.setPrice(input.price());
-        request.setCurrentStock(input.currentStock());
-        request.setCategoryId(input.categoryId());
+        ProductDto dto = new ProductDto();
+        dto.setSku(input.sku());
+        dto.setName(input.name());
+        dto.setDescription(input.description());
+        dto.setPrice(BigDecimal.valueOf(input.price()));
+        dto.setCurrentStock(input.currentStock().longValue());
+        dto.setCategoryId(input.categoryId());
 
-        return productService.createProduct(request);
+        // Using 1L as default performedBy user ID (admin)
+        return productService.create(dto, 1L);
     }
 
     @MutationMapping
     public Product updateProduct(@Argument Long id, @Argument UpdateProductInput input) {
-        UpdateProductRequest request = new UpdateProductRequest();
-        request.setSku(input.sku());
-        request.setName(input.name());
-        request.setDescription(input.description());
-        request.setPrice(input.price());
-        request.setCurrentStock(input.currentStock());
-        request.setCategoryId(input.categoryId());
+        ProductDto dto = new ProductDto();
+        if (input.sku() != null) dto.setSku(input.sku());
+        if (input.name() != null) dto.setName(input.name());
+        if (input.description() != null) dto.setDescription(input.description());
+        if (input.price() != null) dto.setPrice(BigDecimal.valueOf(input.price()));
+        if (input.currentStock() != null) dto.setCurrentStock(input.currentStock().longValue());
+        if (input.categoryId() != null) dto.setCategoryId(input.categoryId());
 
-        return productService.updateProduct(id, request);
+        return productService.update(id, dto, 1L);
     }
 
     @MutationMapping
     public Boolean deleteProduct(@Argument Long id) {
-        productService.deleteProduct(id);
+        productService.softDelete(id, 1L);
         return true;
     }
 
