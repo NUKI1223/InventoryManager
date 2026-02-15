@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/dashboard_provider.dart';
@@ -19,7 +20,7 @@ class DashboardScreen extends ConsumerWidget {
             ),
             child: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.go('/products'),
         ),
         title: const Text('Dashboard'),
         backgroundColor: Colors.blue,
