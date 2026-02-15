@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,14 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public NotificationService(NotificationRepository notificationRepository, UserRepository userRepository) {
+    public NotificationService(NotificationRepository notificationRepository,
+                              UserRepository userRepository,
+                              SimpMessagingTemplate messagingTemplate) {
         this.notificationRepository = notificationRepository;
         this.userRepository = userRepository;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public Page<Notification> getUserNotifications(Long userId, Pageable pageable) {
@@ -58,6 +63,10 @@ public class NotificationService {
         Notification notification = new Notification(user, title, message, type);
         Notification saved = notificationRepository.save(notification);
         log.info("Created notification for user {}: {}", userId, title);
+
+        // Send via WebSocket
+        messagingTemplate.convertAndSend("/topic/notifications/" + userId, saved);
+
         return saved;
     }
 
@@ -72,6 +81,10 @@ public class NotificationService {
         notification.setProduct(product);
         Notification saved = notificationRepository.save(notification);
         log.info("Created low stock notification for product {} (stock: {})", product.getName(), product.getCurrentStock());
+
+        // Send via WebSocket
+        messagingTemplate.convertAndSend("/topic/notifications/" + user.getId(), saved);
+
         return saved;
     }
 

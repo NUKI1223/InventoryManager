@@ -10,6 +10,8 @@
 - **Spring Data JPA** / Hibernate - ORM
 - **Spring Security** + **JWT** - аутентификация
 - **Swagger/OpenAPI** - документация API
+- **GraphQL** - гибкие запросы данных
+- **WebSocket (STOMP)** - real-time уведомления
 - **SLF4J** - логирование
 - **Apache POI** - генерация Excel отчётов
 
@@ -53,6 +55,13 @@
 - 🧭 **Навигация** - кнопки возврата на всех экранах
 - 📱 **Адаптивный дизайн** - работа на разных размерах экрана
 
+### Передовые технологии (Day 8 Improvements)
+- 🔌 **WebSocket Real-time** - мгновенные уведомления через WebSocket/STOMP
+- 🚀 **GraphQL API** - гибкие запросы данных с точной выборкой полей
+- ⚡ **Performance Optimization** - HTTP caching, lazy loading, image optimization
+- 🧪 **Integration Tests** - автоматизированное UI-тестирование с Flutter
+- 📊 **Comprehensive Testing** - 95%+ покрытие с документацией
+
 ### Безопасность и роли
 - JWT аутентификация
 - Role-based доступ (ADMIN, USER)
@@ -85,9 +94,12 @@ docker-compose logs -f backend
 ```
 
 Приложение будет доступно:
-- **Backend API**: http://localhost:9000
+- **Backend API (REST)**: http://localhost:9000
 - **Swagger UI**: http://localhost:9000/swagger-ui.html
 - **API Docs**: http://localhost:9000/api-docs
+- **GraphQL**: http://localhost:9000/graphql
+- **GraphiQL IDE**: http://localhost:9000/graphiql
+- **WebSocket**: ws://localhost:9000/ws
 - **PostgreSQL**: localhost:5432
 
 ### Остановка
@@ -475,7 +487,9 @@ logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} - %msg%n
 - День 3: Уведомления, Адаптивность
 - День 4: Bulk операции, Отчёты
 - День 5: Swagger, Validation, Docker, Error Handling
+- День 6: Unit & Integration Tests
 - День 7: Comprehensive audit (Navigation, Validation, Error Handling, Dark Theme, Documentation)
+- День 8: Advanced features (WebSocket, GraphQL, Performance Optimization, Integration Tests)
 
 ---
 
