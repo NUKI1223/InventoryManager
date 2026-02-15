@@ -17,6 +17,17 @@ class CategoryScreen extends ConsumerWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         titleSpacing: 0,
+        leading: IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFFDBEAFE),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(Icons.arrow_back, color: Color(0xFF60A5FA), size: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: const Text(
           'Categories',
           style: TextStyle(
@@ -76,8 +87,27 @@ class CategoryScreen extends ConsumerWidget {
           child: CircularProgressIndicator(color: Color(0xFF60A5FA)),
         ),
         error: (e, _) => Center(
-          child: Text('Error: ${friendlyError(e)}',
-              style: const TextStyle(color: Color(0xFFFB7185))),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 64, color: Color(0xFFFB7185)),
+              const SizedBox(height: 16),
+              Text(
+                'Error: ${friendlyError(e)}',
+                style: const TextStyle(color: Color(0xFFFB7185)),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () => ref.invalidate(categoryListProvider),
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF60A5FA),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: Container(
@@ -141,11 +171,36 @@ class CategoryScreen extends ConsumerWidget {
           ),
           ElevatedButton(
             onPressed: () async {
-              if (nameCtrl.text.trim().isEmpty) return;
+              final name = nameCtrl.text.trim();
+              if (name.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Category name is required')),
+                );
+                return;
+              }
+              if (name.length < 2) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Name must be at least 2 characters')),
+                );
+                return;
+              }
+              if (name.length > 50) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Name must be less than 50 characters')),
+                );
+                return;
+              }
+              final desc = descCtrl.text.trim();
+              if (desc.isNotEmpty && desc.length > 200) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Description must be less than 200 characters')),
+                );
+                return;
+              }
               try {
                 await ref.read(categoryApiProvider).create(
-                      nameCtrl.text.trim(),
-                      descCtrl.text.trim().isEmpty ? null : descCtrl.text.trim(),
+                      name,
+                      desc.isEmpty ? null : desc,
                     );
                 ref.invalidate(categoryListProvider);
                 Navigator.pop(ctx);
@@ -279,12 +334,37 @@ class _CategoryCard extends ConsumerWidget {
           ),
           ElevatedButton(
             onPressed: () async {
-              if (nameCtrl.text.trim().isEmpty) return;
+              final name = nameCtrl.text.trim();
+              if (name.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Category name is required')),
+                );
+                return;
+              }
+              if (name.length < 2) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Name must be at least 2 characters')),
+                );
+                return;
+              }
+              if (name.length > 50) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Name must be less than 50 characters')),
+                );
+                return;
+              }
+              final desc = descCtrl.text.trim();
+              if (desc.isNotEmpty && desc.length > 200) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Description must be less than 200 characters')),
+                );
+                return;
+              }
               try {
                 await ref.read(categoryApiProvider).update(
                       category.id,
-                      nameCtrl.text.trim(),
-                      descCtrl.text.trim().isEmpty ? null : descCtrl.text.trim(),
+                      name,
+                      desc.isEmpty ? null : desc,
                     );
                 ref.invalidate(categoryListProvider);
                 Navigator.pop(ctx);

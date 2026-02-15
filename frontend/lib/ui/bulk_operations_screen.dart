@@ -91,6 +91,18 @@ class _BulkOperationsScreenState extends ConsumerState<BulkOperationsScreen> {
           TextButton(
             onPressed: () {
               final price = double.tryParse(priceController.text);
+              if (price == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Неверная цена')),
+                );
+                return;
+              }
+              if (price < 0 || price > 1000000) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Цена должна быть от 0 до 1,000,000')),
+                );
+                return;
+              }
               Navigator.pop(ctx, price);
             },
             child: const Text('OK'),
@@ -170,9 +182,25 @@ class _BulkOperationsScreenState extends ConsumerState<BulkOperationsScreen> {
             TextButton(
               onPressed: () {
                 final amount = int.tryParse(amountController.text);
-                if (amount != null) {
-                  Navigator.pop(ctx, {'type': selectedType, 'amount': amount});
+                if (amount == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Неверное количество')),
+                  );
+                  return;
                 }
+                if (amount == 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Количество не может быть нулевым')),
+                  );
+                  return;
+                }
+                if (amount < -1000000 || amount > 1000000) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Количество должно быть от -1,000,000 до 1,000,000')),
+                  );
+                  return;
+                }
+                Navigator.pop(ctx, {'type': selectedType, 'amount': amount});
               },
               child: const Text('OK'),
             ),
@@ -224,6 +252,17 @@ class _BulkOperationsScreenState extends ConsumerState<BulkOperationsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFFDBEAFE),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(Icons.arrow_back, color: Color(0xFF60A5FA), size: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Text('Bulk операции (${_selectedIds.length})'),
         actions: [
           if (_selectedIds.isNotEmpty)

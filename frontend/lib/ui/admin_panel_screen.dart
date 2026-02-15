@@ -27,6 +27,17 @@ class _AdminPanelScreenState extends ConsumerState<AdminPanelScreen> {
         titleSpacing: 0,
         elevation: 0,
         backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFFDBEAFE),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(Icons.arrow_back, color: Color(0xFF60A5FA), size: 20),
+          ),
+          onPressed: () => context.go('/products'),
+        ),
         // Show title with current tab name
         title: Row(
           children: [
@@ -284,10 +295,26 @@ class _UsersTab extends ConsumerWidget {
       error: (e, _) => Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            'Error: ${friendlyError(e)}',
-            style: const TextStyle(color: Color(0xFFFB7185)),
-            textAlign: TextAlign.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 64, color: Color(0xFFFB7185)),
+              const SizedBox(height: 16),
+              Text(
+                'Error: ${friendlyError(e)}',
+                style: const TextStyle(color: Color(0xFFFB7185)),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () => ref.invalidate(usersProvider),
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF60A5FA),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -481,10 +508,38 @@ class _UserCard extends ConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () async {
+                final username = usernameCtrl.text.trim();
+                final fullName = fullNameCtrl.text.trim();
+
+                if (username.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Username is required')),
+                  );
+                  return;
+                }
+                if (username.length < 3 || username.length > 50) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Username must be 3-50 characters')),
+                  );
+                  return;
+                }
+                if (fullName.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Full name is required')),
+                  );
+                  return;
+                }
+                if (fullName.length < 2 || fullName.length > 100) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Full name must be 2-100 characters')),
+                  );
+                  return;
+                }
+
                 try {
                   await ref.read(adminApiProvider).updateUser(user.id, {
-                    'username': usernameCtrl.text.trim(),
-                    'fullName': fullNameCtrl.text.trim(),
+                    'username': username,
+                    'fullName': fullName,
                     'role': selectedRole,
                   });
                   ref.invalidate(usersProvider);
@@ -814,10 +869,26 @@ class _PasswordResetsTab extends ConsumerWidget {
       error: (e, _) => Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            'Error: ${friendlyError(e)}',
-            style: const TextStyle(color: Color(0xFFFB7185)),
-            textAlign: TextAlign.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 64, color: Color(0xFFFB7185)),
+              const SizedBox(height: 16),
+              Text(
+                'Error: ${friendlyError(e)}',
+                style: const TextStyle(color: Color(0xFFFB7185)),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () => ref.invalidate(passwordResetsProvider),
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF60A5FA),
+                ),
+              ),
+            ],
           ),
         ),
       ),

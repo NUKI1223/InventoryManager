@@ -427,9 +427,24 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
               padding: EdgeInsets.all(16),
               child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
             ),
-            error: (_, __) => const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text('Could not load categories', style: TextStyle(color: Color(0xFFFB7185))),
+            error: (e, __) => Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Could not load categories: ${friendlyError(e)}',
+                    style: const TextStyle(color: Color(0xFFFB7185)),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton.icon(
+                    onPressed: () => ref.invalidate(categoryListProvider),
+                    icon: const Icon(Icons.refresh, size: 16),
+                    label: const Text('Retry'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

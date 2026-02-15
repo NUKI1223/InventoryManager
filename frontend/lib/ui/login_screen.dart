@@ -26,6 +26,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _submit() async {
+    // Validate inputs
+    if (_userCtrl.text.trim().isEmpty) {
+      setState(() => _error = 'Username is required');
+      return;
+    }
+    if (_passCtrl.text.isEmpty) {
+      setState(() => _error = 'Password is required');
+      return;
+    }
+
     setState(() {
       _loading = true;
       _error = null;

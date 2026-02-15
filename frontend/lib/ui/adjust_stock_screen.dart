@@ -25,10 +25,21 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
 
   Future<void> _submit() async {
     final text = _amtCtrl.text.trim();
-    if (text.isEmpty) return;
+    if (text.isEmpty) {
+      setState(() => _error = 'Amount is required');
+      return;
+    }
     final change = int.tryParse(text);
     if (change == null) {
       setState(() => _error = 'Enter valid integer');
+      return;
+    }
+    if (change == 0) {
+      setState(() => _error = 'Amount cannot be zero');
+      return;
+    }
+    if (change < -1000000 || change > 1000000) {
+      setState(() => _error = 'Amount must be between -1,000,000 and 1,000,000');
       return;
     }
     setState(() {

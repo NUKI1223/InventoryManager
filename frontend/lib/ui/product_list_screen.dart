@@ -11,6 +11,7 @@ import 'stats_screen.dart';
 import 'history_screen.dart';
 import 'category_screen.dart';
 import '../providers/notification_provider.dart';
+import '../utils/error_handler.dart';
 
 class ProductListScreen extends ConsumerStatefulWidget {
   const ProductListScreen({super.key});
@@ -532,7 +533,32 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
             color: Color(0xFF60A5FA),
           ),
         ),
-        error: (e, _) => Center(child: Text(e.toString())),
+        error: (e, _) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 64, color: Color(0xFFFB7185)),
+                const SizedBox(height: 16),
+                Text(
+                  friendlyError(e),
+                  style: const TextStyle(color: Color(0xFFFB7185)),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: () => ref.read(productListProvider.notifier).fetchProducts(),
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Retry'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF60A5FA),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       floatingActionButton: Container(
         decoration: BoxDecoration(
