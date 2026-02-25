@@ -5,7 +5,7 @@ import 'package:stomp_dart_client/stomp_frame.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class WebSocketService {
-  static const String wsUrl = 'http://localhost:9000/ws';
+  static const String wsUrl = 'http://192.168.10.8:9000/ws';
   StompClient? _stompClient;
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
   Function(Map<String, dynamic>)? onNotificationReceived;
@@ -48,7 +48,7 @@ class WebSocketService {
   }
 
   Future<String?> _getUserId() async {
-    final token = await _storage.read(key: 'auth_token');
+    final token = await _storage.read(key: 'jwt');
     if (token == null) return null;
 
     // Decode JWT to get userId (simple base64 decode of payload)
@@ -61,7 +61,7 @@ class WebSocketService {
       final decoded = utf8.decode(base64Url.decode(normalized));
       final Map<String, dynamic> data = jsonDecode(decoded);
 
-      return data['userId']?.toString();
+      return data['sub']?.toString();
     } catch (e) {
       print('Error decoding token: $e');
       return null;

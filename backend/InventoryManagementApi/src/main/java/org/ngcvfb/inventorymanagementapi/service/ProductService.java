@@ -44,7 +44,7 @@ public class ProductService {
     }
 
     public Product getOne(Long id) {
-        return productRepo.findById(id).orElseThrow(() -> new RuntimeException("Товар не найден"));
+        return productRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Товар не найден"));
     }
 
     public Product create(ProductDto dto, Long performedBy) {

@@ -1,12 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/notification_api.dart';
-import '../api/api_client.dart';
 import '../models/notification.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'auth_provider.dart';
 
 final notificationApiProvider = Provider<NotificationApi>((ref) {
-  return NotificationApi(ApiClient(Dio(), const FlutterSecureStorage()));
+  return NotificationApi(ref.watch(apiClientProvider));
 });
 
 final notificationListProvider = FutureProvider.autoDispose<List<NotificationModel>>((ref) async {

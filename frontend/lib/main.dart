@@ -4,7 +4,8 @@ import 'theme/app_theme.dart';
 import 'routes.dart';
 import 'providers/theme_provider.dart';
 import 'providers/websocket_provider.dart';
-
+import 'providers/auth_provider.dart';
+import 'providers/notification_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,51 +20,62 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
+  String? _previousToken;
+
   @override
   void initState() {
     super.initState();
-    // Initialize WebSocket connection
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initWebSocket();
+      _setupWebSocket();
     });
   }
 
-  void _initWebSocket() {
+  void _setupWebSocket() {
     final wsService = ref.read(websocketServiceProvider);
 
-    // Set up notification callback
     wsService.onNotificationReceived = (notification) {
       ref.read(realtimeNotificationProvider.notifier).state = notification;
+      // Обновить счётчик непрочитанных
+      ref.invalidate(unreadCountProvider);
 
-      // Show snackbar for new notification
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(notification['title'] ?? 'New notification'),
-            backgroundColor: Colors.blue,
-            duration: const Duration(seconds: 3),
+            content: Text(notification['title'] ?? 'Новое уведомление'),
+            backgroundColor: Colors.orange,
+            duration: const Duration(seconds: 4),
             action: SnackBarAction(
-              label: 'View',
+              label: 'Открыть',
               textColor: Colors.white,
               onPressed: () {
-                // Navigate to notifications screen
+                ref.read(routerProvider).push('/notifications');
               },
             ),
           ),
         );
       }
     };
-
-    // Connect to WebSocket
-    wsService.connect().then((_) {
-      ref.read(websocketConnectionProvider.notifier).state = wsService.isConnected;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
     final themeMode = ref.watch(themeModeProvider);
+    final token = ref.watch(authNotifierProvider);
+
+    // Подключать/отключать WebSocket при изменении токена
+    if (token != _previousToken) {
+      _previousToken = token;
+      final wsService = ref.read(websocketServiceProvider);
+      if (token != null) {
+        wsService.connect().then((_) {
+          ref.read(websocketConnectionProvider.notifier).state = wsService.isConnected;
+        });
+      } else {
+        wsService.disconnect();
+        ref.read(websocketConnectionProvider.notifier).state = false;
+      }
+    }
 
     return MaterialApp.router(
       title: 'Inventory App',

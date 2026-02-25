@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/dashboard_provider.dart';
+import '../providers/notification_provider.dart';
 import '../models/product.dart';
 
 class DashboardScreen extends ConsumerWidget {
@@ -24,6 +25,29 @@ class DashboardScreen extends ConsumerWidget {
         ),
         title: const Text('Главная'),
         backgroundColor: Colors.blue,
+        actions: [
+          Consumer(
+            builder: (context, ref, _) {
+              final unreadAsync = ref.watch(unreadCountProvider);
+              return IconButton(
+                icon: Badge(
+                  label: unreadAsync.when(
+                    data: (count) => Text('$count'),
+                    loading: () => const SizedBox.shrink(),
+                    error: (_, __) => const SizedBox.shrink(),
+                  ),
+                  isLabelVisible: unreadAsync.maybeWhen(
+                    data: (count) => count > 0,
+                    orElse: () => false,
+                  ),
+                  child: const Icon(Icons.notifications_outlined, color: Colors.white),
+                ),
+                tooltip: 'Уведомления',
+                onPressed: () => context.push('/notifications'),
+              );
+            },
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -31,6 +55,7 @@ class DashboardScreen extends ConsumerWidget {
           ref.invalidate(zeroStockProvider);
           ref.invalidate(recentTransactionsProvider);
           ref.invalidate(categoryStatsProvider);
+          ref.invalidate(unreadCountProvider);
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
