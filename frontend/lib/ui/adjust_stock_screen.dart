@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/stock_provider.dart';
@@ -56,7 +57,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
             backgroundColor: Color(0xFF10B981),
           ),
         );
-        Navigator.pop(context);
+        if (context.canPop()) context.pop() else context.go('/products');
       }
     } catch (e) {
       setState(() => _error = friendlyError(e));
@@ -83,7 +84,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
             ),
             child: const Icon(Icons.arrow_back, color: Color(0xFF3B82F6), size: 20),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.canPop() ? context.pop() : context.go('/products'),
         ),
         title: const Text(
           'Adjust Stock',

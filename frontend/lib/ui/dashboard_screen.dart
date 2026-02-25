@@ -392,7 +392,9 @@ class DashboardScreen extends ConsumerWidget {
                         child: Icon(icon, color: color),
                       ),
                       title: Text(type),
-                      subtitle: Text(timestamp.toString().substring(0, 16)),
+                      subtitle: Text(timestamp.toString().length >= 16
+                          ? timestamp.toString().substring(0, 16)
+                          : timestamp.toString()),
                       trailing: Text(
                         '${isIncoming ? '+' : '-'}$quantity',
                         style: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,7 +45,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
           backgroundColor: Color(0xFF86EFAC),
         ),
       );
-      Navigator.pop(context, newPath);
+      if (context.canPop()) context.pop() else context.go('/products');
     } catch (e) {
       final msg = friendlyError(e);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -71,7 +72,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
             ),
             child: const Icon(Icons.arrow_back, color: Color(0xFF60A5FA), size: 20),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.canPop() ? context.pop() : context.go('/products'),
         ),
         title: const Text(
           'Upload Image',
