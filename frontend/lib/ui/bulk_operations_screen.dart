@@ -262,7 +262,7 @@ class _BulkOperationsScreenState extends ConsumerState<BulkOperationsScreen> {
             ),
             child: const Icon(Icons.arrow_back, color: Color(0xFF60A5FA), size: 20),
           ),
-          onPressed: () => context.go('/products'),
+          onPressed: () => context.pop(),
         ),
         title: Text('Bulk операции (${_selectedIds.length})'),
         actions: [

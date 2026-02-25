@@ -7,9 +7,6 @@ import '../providers/auth_provider.dart';
 import '../providers/import_export_provider.dart';
 import 'add_product_screen.dart';
 import 'search_screen.dart';
-import 'stats_screen.dart';
-import 'history_screen.dart';
-import 'category_screen.dart';
 import '../providers/notification_provider.dart';
 import '../utils/error_handler.dart';
 
@@ -68,140 +65,23 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
         elevation: 0,
         backgroundColor: Colors.white,
         titleSpacing: 0,
+        title: const Padding(
+          padding: EdgeInsets.only(left: 16),
+          child: Text(
+            'Products',
+            style: TextStyle(
+              color: Color(0xFF1E293B),
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         actions: [
-          Consumer(
-            builder: (context, ref, _) {
-              final asyncIsAdmin = ref.watch(isAdminProvider);
-              return asyncIsAdmin.when(
-                data: (isAdmin) {
-                  if (!isAdmin) return const SizedBox.shrink();
-                  return IconButton(
-                    icon: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFECDD3),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(Icons.admin_panel_settings, color: Color(0xFFFB7185), size: 20),
-                    ),
-                    onPressed: () => context.go('/admin'),
-                  );
-                },
-                loading: () => const SizedBox.shrink(),
-                error: (_, __) => const SizedBox.shrink(),
-              );
-            },
-          ),
           IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDBEAFE),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.upload_file, color: Color(0xFF60A5FA), size: 20),
-            ),
-            tooltip: 'Import Excel',
-            onPressed: () async {
-              final excelApi = ref.read(importExportProvider);
-              try {
-                await excelApi.importFromPicker();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Import successful'),
-                    backgroundColor: Color(0xFF86EFAC),
-                  ),
-                );
-                ref.read(productListProvider.notifier).fetchProducts();
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Import error: $e')),
-                );
-              }
-            },
-          ),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDBEAFE),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.download, color: Color(0xFF60A5FA), size: 20),
-            ),
-            tooltip: 'Export Excel',
-            onPressed: () async {
-              final excelApi = ref.read(importExportProvider);
-              try {
-                final filePath = await excelApi.exportToXlsx();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('File saved: $filePath'),
-                    backgroundColor: Color(0xFF86EFAC),
-                  ),
-                );
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Export error: $e')),
-                );
-              }
-            },
-          ),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDBEAFE),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.category, color: Color(0xFF60A5FA), size: 20),
-            ),
-            tooltip: 'Categories',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const CategoryScreen()),
-            ),
-          ),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDBEAFE),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.search, color: Color(0xFF60A5FA), size: 20),
-            ),
+            icon: const Icon(Icons.search, color: Color(0xFF60A5FA)),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const SearchScreen()),
-            ),
-          ),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDBEAFE),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.bar_chart, color: Color(0xFF60A5FA), size: 20),
-            ),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const StatsScreen()),
-            ),
-          ),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFDBEAFE),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.history, color: Color(0xFF60A5FA), size: 20),
-            ),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const HistoryScreen()),
             ),
           ),
           Consumer(
@@ -218,59 +98,145 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                     data: (count) => count > 0,
                     orElse: () => false,
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFEF3C7),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(Icons.notifications, color: Color(0xFFF59E0B), size: 20),
-                  ),
+                  child: const Icon(Icons.notifications, color: Color(0xFFF59E0B)),
                 ),
                 tooltip: 'Notifications',
-                onPressed: () => context.go('/notifications'),
+                onPressed: () => context.push('/notifications'),
               );
             },
           ),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFE0E7FF),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.dashboard, color: Color(0xFF6366F1), size: 20),
-            ),
-            tooltip: 'Dashboard',
-            onPressed: () => context.go('/dashboard'),
-          ),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFD1FAE5),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.person, color: Color(0xFF10B981), size: 20),
-            ),
-            tooltip: 'Profile',
-            onPressed: () => context.go('/profile'),
-          ),
-          IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFECDD3),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.logout, color: Color(0xFFFB7185), size: 20),
-            ),
-            onPressed: () {
-              ref.read(authNotifierProvider.notifier).logout();
-              context.go('/');
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert, color: Color(0xFF60A5FA)),
+            onSelected: (value) async {
+              switch (value) {
+                case 'admin':
+                  context.push('/admin');
+                  break;
+                case 'dashboard':
+                  context.push('/dashboard');
+                  break;
+                case 'categories':
+                  context.push('/categories');
+                  break;
+                case 'stats':
+                  context.push('/stats');
+                  break;
+                case 'history':
+                  context.push('/history');
+                  break;
+                case 'import':
+                  final excelApi = ref.read(importExportProvider);
+                  try {
+                    await excelApi.importFromPicker();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Import successful'),
+                        backgroundColor: Color(0xFF86EFAC),
+                      ),
+                    );
+                    ref.read(productListProvider.notifier).fetchProducts();
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Import error: $e')),
+                    );
+                  }
+                  break;
+                case 'export':
+                  final excelApi = ref.read(importExportProvider);
+                  try {
+                    final filePath = await excelApi.exportToXlsx();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('File saved: $filePath'),
+                        backgroundColor: Color(0xFF86EFAC),
+                      ),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Export error: $e')),
+                    );
+                  }
+                  break;
+                case 'profile':
+                  context.push('/profile');
+                  break;
+                case 'logout':
+                  ref.read(authNotifierProvider.notifier).logout();
+                  context.go('/');
+                  break;
+              }
+            },
+            itemBuilder: (context) {
+              final asyncIsAdmin = ref.read(isAdminProvider);
+              return [
+                if (asyncIsAdmin.valueOrNull == true)
+                  const PopupMenuItem(
+                    value: 'admin',
+                    child: ListTile(
+                      leading: Icon(Icons.admin_panel_settings, color: Color(0xFFFB7185)),
+                      title: Text('Admin Panel'),
+                    ),
+                  ),
+                const PopupMenuItem(
+                  value: 'dashboard',
+                  child: ListTile(
+                    leading: Icon(Icons.dashboard, color: Color(0xFF6366F1)),
+                    title: Text('Dashboard'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'categories',
+                  child: ListTile(
+                    leading: Icon(Icons.category, color: Color(0xFF60A5FA)),
+                    title: Text('Categories'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'stats',
+                  child: ListTile(
+                    leading: Icon(Icons.bar_chart, color: Color(0xFF60A5FA)),
+                    title: Text('Statistics'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'history',
+                  child: ListTile(
+                    leading: Icon(Icons.history, color: Color(0xFF60A5FA)),
+                    title: Text('History'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'import',
+                  child: ListTile(
+                    leading: Icon(Icons.upload_file, color: Color(0xFF60A5FA)),
+                    title: Text('Import Excel'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'export',
+                  child: ListTile(
+                    leading: Icon(Icons.download, color: Color(0xFF60A5FA)),
+                    title: Text('Export Excel'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'profile',
+                  child: ListTile(
+                    leading: Icon(Icons.person, color: Color(0xFF10B981)),
+                    title: Text('Profile'),
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'logout',
+                  child: ListTile(
+                    leading: Icon(Icons.logout, color: Color(0xFFFB7185)),
+                    title: Text('Logout'),
+                  ),
+                ),
+              ];
             },
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 4),
         ],
       ),
       body: asyncList.when(
@@ -320,9 +286,8 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
             child: ListView.builder(
               controller: _scrollController,
               padding: const EdgeInsets.all(16),
-              itemCount: list.length + 1, // +1 for load more button
+              itemCount: list.length + 1,
               itemBuilder: (_, i) {
-                // Load more button at the end
                 if (i == list.length) {
                   final notifier = ref.read(productListProvider.notifier);
                   if (!notifier.hasMore) {

@@ -57,7 +57,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
             backgroundColor: Color(0xFF10B981),
           ),
         );
-        if (context.canPop()) context.pop() else context.go('/products');
+        if (context.canPop()) context.pop(); else context.go('/products');
       }
     } catch (e) {
       setState(() => _error = friendlyError(e));
@@ -84,7 +84,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
             ),
             child: const Icon(Icons.arrow_back, color: Color(0xFF3B82F6), size: 20),
           ),
-          onPressed: () => context.canPop() ? context.pop() : context.go('/products'),
+          onPressed: () => context.pop(),
         ),
         title: const Text(
           'Adjust Stock',

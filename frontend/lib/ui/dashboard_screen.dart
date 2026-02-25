@@ -20,7 +20,7 @@ class DashboardScreen extends ConsumerWidget {
             ),
             child: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
           ),
-          onPressed: () => context.go('/products'),
+          onPressed: () => context.pop(),
         ),
         title: const Text('Dashboard'),
         backgroundColor: Colors.blue,

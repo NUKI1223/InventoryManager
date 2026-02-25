@@ -72,7 +72,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.go('/products'),
+          onPressed: () => context.pop(),
         ),
         title: const Text('Отчёты'),
         backgroundColor: Colors.indigo,

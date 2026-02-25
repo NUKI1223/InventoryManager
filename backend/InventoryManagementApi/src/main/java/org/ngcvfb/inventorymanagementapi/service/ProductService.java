@@ -4,7 +4,9 @@ import org.ngcvfb.inventorymanagementapi.dto.ProductDto;
 import org.ngcvfb.inventorymanagementapi.model.Category;
 import org.ngcvfb.inventorymanagementapi.model.Product;
 import org.ngcvfb.inventorymanagementapi.repository.CategoryRepository;
+import org.ngcvfb.inventorymanagementapi.repository.NotificationRepository;
 import org.ngcvfb.inventorymanagementapi.repository.ProductRepository;
+import org.ngcvfb.inventorymanagementapi.repository.StockTransactionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,11 +24,17 @@ public class ProductService {
     private final ProductRepository productRepo;
     private final CategoryRepository categoryRepo;
     private final AuditService auditService;
+    private final StockTransactionRepository stockTransactionRepo;
+    private final NotificationRepository notificationRepo;
 
-    public ProductService(ProductRepository productRepo, CategoryRepository categoryRepo, AuditService auditService) {
+    public ProductService(ProductRepository productRepo, CategoryRepository categoryRepo,
+                          AuditService auditService, StockTransactionRepository stockTransactionRepo,
+                          NotificationRepository notificationRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
         this.auditService = auditService;
+        this.stockTransactionRepo = stockTransactionRepo;
+        this.notificationRepo = notificationRepo;
     }
 
     public Page<Product> list(int page, int size) {
@@ -87,10 +95,13 @@ public class ProductService {
     @Transactional
     public void softDelete(Long id, Long performedBy) {
         Product p = getOne(id);
-        productRepo.delete(p);
         Map<String, Object> details = new HashMap<>();
         details.put("name", p.getName());
         details.put("sku", p.getSku());
+        // Delete related records to avoid FK constraint violations
+        stockTransactionRepo.deleteByProductId(id);
+        notificationRepo.deleteByProductId(id);
+        productRepo.delete(p);
         auditService.record(p.getId(), "DELETE", performedBy, details);
     }
 
@@ -145,6 +156,8 @@ public class ProductService {
             details.put("name", p.getName());
             details.put("sku", p.getSku());
             auditService.record(p.getId(), "BULK_DELETE", performedBy, details);
+            stockTransactionRepo.deleteByProductId(p.getId());
+            notificationRepo.deleteByProductId(p.getId());
         }
         productRepo.deleteAllById(productIds);
     }

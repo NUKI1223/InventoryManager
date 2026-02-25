@@ -27,7 +27,7 @@ class CategoryScreen extends ConsumerWidget {
             ),
             child: const Icon(Icons.arrow_back, color: Color(0xFF60A5FA), size: 20),
           ),
-          onPressed: () => context.go('/products'),
+          onPressed: () => context.pop(),
         ),
         title: const Text(
           'Categories',

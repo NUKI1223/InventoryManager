@@ -15,7 +15,7 @@ class NotificationsScreen extends ConsumerWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.go('/products'),
+          onPressed: () => context.pop(),
         ),
         title: const Text('Уведомления'),
         actions: [

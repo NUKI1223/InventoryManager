@@ -45,7 +45,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
           backgroundColor: Color(0xFF86EFAC),
         ),
       );
-      if (context.canPop()) context.pop() else context.go('/products');
+      if (context.canPop()) context.pop(); else context.go('/products');
     } catch (e) {
       final msg = friendlyError(e);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -72,7 +72,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
             ),
             child: const Icon(Icons.arrow_back, color: Color(0xFF60A5FA), size: 20),
           ),
-          onPressed: () => context.canPop() ? context.pop() : context.go('/products'),
+          onPressed: () => context.pop(),
         ),
         title: const Text(
           'Upload Image',

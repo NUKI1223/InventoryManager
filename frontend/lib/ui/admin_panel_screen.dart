@@ -36,7 +36,7 @@ class _AdminPanelScreenState extends ConsumerState<AdminPanelScreen> {
             ),
             child: const Icon(Icons.arrow_back, color: Color(0xFF60A5FA), size: 20),
           ),
-          onPressed: () => context.go('/products'),
+          onPressed: () => context.pop(),
         ),
         // Show title with current tab name
         title: Row(
@@ -97,7 +97,7 @@ class _AdminPanelScreenState extends ConsumerState<AdminPanelScreen> {
               ),
               child: const Icon(Icons.logout, color: Color(0xFFFB7185), size: 20),
             ),
-            onPressed: () => context.go('/products'),
+            onPressed: () => context.pop(),
             tooltip: 'Logout',
           ),
           const SizedBox(width: 8),
