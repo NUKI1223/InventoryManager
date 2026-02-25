@@ -10,8 +10,10 @@ import org.ngcvfb.inventorymanagementapi.repository.StockTransactionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -42,10 +44,13 @@ public class ProductService {
     }
 
     public Product getOne(Long id) {
-        return productRepo.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        return productRepo.findById(id).orElseThrow(() -> new RuntimeException("Товар не найден"));
     }
 
     public Product create(ProductDto dto, Long performedBy) {
+        productRepo.findBySku(dto.getSku()).ifPresent(existing -> {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Товар с таким артикулом уже существует");
+        });
         Product p = new Product();
         p.setSku(dto.getSku());
         p.setName(dto.getName());

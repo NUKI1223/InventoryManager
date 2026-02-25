@@ -26,10 +26,10 @@ public class AuthService {
     // Login — теперь с BCrypt-проверкой
     public LoginResponse login(LoginRequest req) {
         User user = userRepo.findByUsername(req.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Неверный логин или пароль"));
 
         if (!passwordEncoder.matches(req.getPassword(), user.getPasswordHash())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Bad credentials");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Неверный логин или пароль");
         }
         String token = jwtUtil.generateToken(user);
         return new LoginResponse(token);
@@ -41,11 +41,11 @@ public class AuthService {
         String password = req.getPassword();
 
         if (username == null || username.isBlank() || password == null || password.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username and password required");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Необходимо указать логин и пароль");
         }
 
         userRepo.findByUsername(username).ifPresent(u -> {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Пользователь с таким логином уже существует");
         });
 
         User u = new User();

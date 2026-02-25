@@ -26,13 +26,13 @@ public class CategoryService {
 
     public Category findById(Long id) {
         return categoryRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Категория не найдена"));
     }
 
     public Category create(Category category) {
         log.info("Creating category: {}", category.getName());
         categoryRepo.findByName(category.getName()).ifPresent(c -> {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Category with this name already exists");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Категория с таким названием уже существует");
         });
         Category saved = categoryRepo.save(category);
         log.info("Category created with ID: {}", saved.getId());

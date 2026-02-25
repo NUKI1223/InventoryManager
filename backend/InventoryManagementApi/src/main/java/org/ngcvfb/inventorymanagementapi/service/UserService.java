@@ -30,13 +30,13 @@ public class UserService {
 
     public UserResponse updateUser(Long userId, UpdateUserRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь не найден"));
 
         if (request.getUsername() != null && !request.getUsername().isBlank()) {
             // Check if username is taken by another user
             userRepository.findByUsername(request.getUsername()).ifPresent(existingUser -> {
                 if (!existingUser.getId().equals(userId)) {
-                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already taken");
+                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Пользователь с таким логином уже существует");
                 }
             });
             user.setUsername(request.getUsername());
@@ -56,13 +56,13 @@ public class UserService {
 
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь не найден"));
         userRepository.delete(user);
     }
 
     public void resetPassword(Long userId, String newPassword) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь не найден"));
         user.setPasswordHash(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }

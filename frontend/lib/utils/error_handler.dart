@@ -19,7 +19,8 @@ String friendlyError(Object e) {
       if (status == 404) return 'Не найдено';
       if (status != null && status >= 500) return 'Ошибка сервера. Попробуйте позже.';
 
-      return 'Ошибка запроса (статус: ${status ?? 'неизвестен'})';
+      if (status == null) return 'Нет соединения с сервером';
+      return 'Ошибка запроса (статус: $status)';
     }
 
     return e.toString();

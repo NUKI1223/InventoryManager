@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("error", "Unauthorized");
-        body.put("message", "Invalid credentials");
+        body.put("message", "Неверный логин или пароль");
         body.put("path", request.getDescription(false).replace("uri=", ""));
 
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("error", "Validation Failed");
-        body.put("message", "Input validation error");
+        body.put("message", "Ошибка валидации данных");
         body.put("path", request.getDescription(false).replace("uri=", ""));
 
         Map<String, String> errors = new HashMap<>();
@@ -94,7 +94,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("error", "Internal Server Error");
-        body.put("message", "An unexpected error occurred");
+        body.put("message", "Произошла непредвиденная ошибка");
         body.put("path", request.getDescription(false).replace("uri=", ""));
 
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
