@@ -24,7 +24,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
   Future<void> _submit() async {
     if (_usernameCtrl.text.trim().isEmpty) {
-      setState(() => _error = 'Please enter your username');
+      setState(() => _error = 'Введите имя пользователя');
       return;
     }
 
@@ -53,11 +53,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   child: const Icon(Icons.check_circle, color: Color(0xFF10B981)),
                 ),
                 const SizedBox(width: 12),
-                const Text('Request Submitted'),
+                const Text('Запрос отправлен'),
               ],
             ),
             content: const Text(
-              'Your password reset request has been submitted. An admin will process your request shortly.',
+              'Ваш запрос на сброс пароля отправлен. Администратор обработает его в ближайшее время.',
             ),
             actions: [
               ElevatedButton(
@@ -69,7 +69,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   backgroundColor: const Color(0xFF60A5FA),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
-                child: const Text('Back to Login'),
+                child: const Text('Назад к входу'),
               ),
             ],
           ),
@@ -128,7 +128,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
                   // Title
                   const Text(
-                    'Forgot Password?',
+                    'Забыли пароль?',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Enter your username to request a password reset',
+                    'Введите логин для сброса пароля',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white.withOpacity(0.9),
@@ -167,7 +167,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Username',
+                              'Имя пользователя',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -296,7 +296,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                                 Icon(Icons.send, size: 22),
                                 SizedBox(width: 8),
                                 Text(
-                                  'Submit Request',
+                                  'Отправить запрос',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -313,7 +313,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                         TextButton(
                           onPressed: () => context.go('/'),
                           child: const Text(
-                            'Back to Login',
+                            'Назад к входу',
                             style: TextStyle(
                               color: Color(0xFF60A5FA),
                               fontSize: 14,

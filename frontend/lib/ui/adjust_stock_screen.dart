@@ -27,20 +27,20 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
   Future<void> _submit() async {
     final text = _amtCtrl.text.trim();
     if (text.isEmpty) {
-      setState(() => _error = 'Amount is required');
+      setState(() => _error = 'Введите количество');
       return;
     }
     final change = int.tryParse(text);
     if (change == null) {
-      setState(() => _error = 'Enter valid integer');
+      setState(() => _error = 'Введите целое число');
       return;
     }
     if (change == 0) {
-      setState(() => _error = 'Amount cannot be zero');
+      setState(() => _error = 'Количество не может быть нулём');
       return;
     }
     if (change < -1000000 || change > 1000000) {
-      setState(() => _error = 'Amount must be between -1,000,000 and 1,000,000');
+      setState(() => _error = 'Значение от -1 000 000 до 1 000 000');
       return;
     }
     setState(() {
@@ -53,7 +53,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Stock adjusted successfully'),
+            content: Text('Запас успешно изменён'),
             backgroundColor: Color(0xFF10B981),
           ),
         );
@@ -87,7 +87,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
           onPressed: () => context.pop(),
         ),
         title: const Text(
-          'Adjust Stock',
+          'Изменить запас',
           style: TextStyle(
             color: Color(0xFF1E293B),
             fontSize: 20,
@@ -143,7 +143,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Change Amount',
+                    'Изменение количества',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -168,7 +168,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
                         color: Color(0xFF1E293B),
                       ),
                       decoration: InputDecoration(
-                        hintText: 'e.g. -5 or 10',
+                        hintText: 'напр. -5 или 10',
                         hintStyle: const TextStyle(
                           color: Color(0xFF94A3B8),
                           fontSize: 14,
@@ -196,7 +196,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'Transaction Type',
+                    'Тип операции',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -269,7 +269,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
                   ),
                 )
                     : const Text(
-                  'Submit',
+                  'Применить',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -292,7 +292,7 @@ class _AdjustStockState extends ConsumerState<AdjustStockScreen> {
                     const Icon(Icons.check_circle, color: Color(0xFF10B981)),
                     const SizedBox(width: 12),
                     Text(
-                      'New stock: ${p.currentStock}',
+                      'Новый запас: ${p.currentStock} шт',
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF1E293B),

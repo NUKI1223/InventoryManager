@@ -68,7 +68,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
         title: const Padding(
           padding: EdgeInsets.only(left: 16),
           child: Text(
-            'Products',
+            'Товары',
             style: TextStyle(
               color: Color(0xFF1E293B),
               fontSize: 22,
@@ -100,7 +100,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                   ),
                   child: const Icon(Icons.notifications, color: Color(0xFFF59E0B)),
                 ),
-                tooltip: 'Notifications',
+                tooltip: 'Уведомления',
                 onPressed: () => context.push('/notifications'),
               );
             },
@@ -130,14 +130,14 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                     await excelApi.importFromPicker();
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Import successful'),
+                        content: Text('Импорт выполнен'),
                         backgroundColor: Color(0xFF86EFAC),
                       ),
                     );
                     ref.read(productListProvider.notifier).fetchProducts();
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Import error: $e')),
+                      SnackBar(content: Text('Ошибка импорта: $e')),
                     );
                   }
                   break;
@@ -147,13 +147,13 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                     final filePath = await excelApi.exportToXlsx();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('File saved: $filePath'),
+                        content: Text('Файл сохранён: $filePath'),
                         backgroundColor: Color(0xFF86EFAC),
                       ),
                     );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Export error: $e')),
+                      SnackBar(content: Text('Ошибка экспорта: $e')),
                     );
                   }
                   break;
@@ -174,63 +174,63 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                     value: 'admin',
                     child: ListTile(
                       leading: Icon(Icons.admin_panel_settings, color: Color(0xFFFB7185)),
-                      title: Text('Admin Panel'),
+                      title: Text('Панель администратора'),
                     ),
                   ),
                 const PopupMenuItem(
                   value: 'dashboard',
                   child: ListTile(
                     leading: Icon(Icons.dashboard, color: Color(0xFF6366F1)),
-                    title: Text('Dashboard'),
+                    title: Text('Главная'),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'categories',
                   child: ListTile(
                     leading: Icon(Icons.category, color: Color(0xFF60A5FA)),
-                    title: Text('Categories'),
+                    title: Text('Категории'),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'stats',
                   child: ListTile(
                     leading: Icon(Icons.bar_chart, color: Color(0xFF60A5FA)),
-                    title: Text('Statistics'),
+                    title: Text('Статистика'),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'history',
                   child: ListTile(
                     leading: Icon(Icons.history, color: Color(0xFF60A5FA)),
-                    title: Text('History'),
+                    title: Text('История'),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'import',
                   child: ListTile(
                     leading: Icon(Icons.upload_file, color: Color(0xFF60A5FA)),
-                    title: Text('Import Excel'),
+                    title: Text('Импорт Excel'),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'export',
                   child: ListTile(
                     leading: Icon(Icons.download, color: Color(0xFF60A5FA)),
-                    title: Text('Export Excel'),
+                    title: Text('Экспорт Excel'),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'profile',
                   child: ListTile(
                     leading: Icon(Icons.person, color: Color(0xFF10B981)),
-                    title: Text('Profile'),
+                    title: Text('Профиль'),
                   ),
                 ),
                 const PopupMenuItem(
                   value: 'logout',
                   child: ListTile(
                     leading: Icon(Icons.logout, color: Color(0xFFFB7185)),
-                    title: Text('Logout'),
+                    title: Text('Выйти'),
                   ),
                 ),
               ];
@@ -260,7 +260,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                   ),
                   const SizedBox(height: 24),
                   const Text(
-                    'No products yet',
+                    'Нет товаров',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -269,7 +269,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Add your first product to get started',
+                    'Добавьте первый товар',
                     style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF64748B),
@@ -330,7 +330,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                           ),
                           icon: const Icon(Icons.expand_more, size: 20),
                           label: const Text(
-                            'Load more',
+                            'Загрузить ещё',
                             style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -403,7 +403,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    'SKU: ${p.sku}',
+                                    'Арт.: ${p.sku}',
                                     style: const TextStyle(
                                       fontSize: 13,
                                       color: Color(0xFF64748B),
@@ -515,7 +515,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                 ElevatedButton.icon(
                   onPressed: () => ref.read(productListProvider.notifier).fetchProducts(),
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Retry'),
+                  label: const Text('Повторить'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF60A5FA),
                   ),

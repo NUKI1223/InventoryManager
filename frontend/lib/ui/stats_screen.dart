@@ -43,7 +43,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
           onPressed: () => context.pop(),
         ),
         title: const Text(
-          'Statistics',
+          'Статистика',
           style: TextStyle(
             color: Color(0xFF1E293B),
             fontSize: 20,
@@ -86,7 +86,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                   Row(
                     children: [
                       const Text(
-                        'Select Products',
+                        'Выбор товаров',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -100,7 +100,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                             ref.read(selectedProductIdsProvider.notifier).state = null;
                           },
                           icon: const Icon(Icons.clear_all, size: 18),
-                          label: const Text('Clear'),
+                          label: const Text('Сбросить'),
                           style: TextButton.styleFrom(
                             foregroundColor: const Color(0xFFFB7185),
                           ),
@@ -113,7 +113,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                       if (products.isEmpty) {
                         return const Center(
                           child: Text(
-                            'No products available',
+                            'Нет товаров',
                             style: TextStyle(color: Color(0xFF64748B)),
                           ),
                         );
@@ -186,7 +186,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                     ),
                     error: (e, _) => Center(
                       child: Text(
-                        'Error loading products',
+                        'Ошибка загрузки',
                         style: TextStyle(color: Color(0xFFFB7185)),
                       ),
                     ),
@@ -208,7 +208,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            '${selectedIds.length} product(s) selected',
+                            '${selectedIds.length} товаров выбрано',
                             style: const TextStyle(
                               color: Color(0xFF10B981),
                               fontWeight: FontWeight.w600,
@@ -286,7 +286,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
-                                  'Showing stats for ${selectedIds.length} selected product(s)',
+                                  'Статистика по ${selectedIds.length} товарам',
                                   style: const TextStyle(
                                     color: Color(0xFF60A5FA),
                                     fontWeight: FontWeight.w600,
@@ -301,7 +301,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                       // Stats Cards
                       _buildStatCard(
                         icon: Icons.inventory_2,
-                        label: 'Total Products',
+                        label: 'Всего товаров',
                         value: '${s.totalProducts}',
                         color: const Color(0xFF60A5FA),
                         bgColor: const Color(0xFFDBEAFE),
@@ -309,7 +309,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                       const SizedBox(height: 12),
                       _buildStatCard(
                         icon: Icons.warehouse,
-                        label: 'Total Stock',
+                        label: 'Общий запас',
                         value: '${s.totalStock}',
                         color: const Color(0xFF8B5CF6),
                         bgColor: const Color(0xFFE9D5FF),
@@ -317,7 +317,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                       const SizedBox(height: 12),
                       _buildStatCard(
                         icon: Icons.attach_money,
-                        label: 'Inventory Value',
+                        label: 'Стоимость склада',
                         value: '\$${s.totalInventoryValue.toStringAsFixed(2)}',
                         color: const Color(0xFF10B981),
                         bgColor: const Color(0xFFD1FAE5),
@@ -325,7 +325,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                       const SizedBox(height: 12),
                       _buildStatCard(
                         icon: Icons.sync_alt,
-                        label: 'Total Changes',
+                        label: 'Всего операций',
                         value: '${s.totalChanges}',
                         color: const Color(0xFFF59E0B),
                         bgColor: const Color(0xFFFEF3C7),
@@ -371,7 +371,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                         ref.invalidate(productListProvider);
                       },
                       icon: const Icon(Icons.refresh),
-                      label: const Text('Retry'),
+                      label: const Text('Повторить'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF60A5FA),
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),

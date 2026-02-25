@@ -34,7 +34,7 @@ class ProductDetailScreen extends ConsumerWidget {
           onPressed: () => context.pop(),
         ),
         title: const Text(
-          'Product Details',
+          'Детали товара',
           style: TextStyle(
             color: Color(0xFF1E293B),
             fontSize: 20,
@@ -61,7 +61,7 @@ class ProductDetailScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Product not found',
+              'Товар не найден',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -142,14 +142,14 @@ class ProductDetailScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  _buildInfoRow(Icons.qr_code, 'SKU', product.sku),
+                  _buildInfoRow(Icons.qr_code, 'Артикул', product.sku),
                   const SizedBox(height: 12),
-                  _buildInfoRow(Icons.inventory, 'Stock', '${product.currentStock} units'),
+                  _buildInfoRow(Icons.inventory, 'Запас', '${product.currentStock} шт'),
                   const SizedBox(height: 12),
-                  _buildInfoRow(Icons.attach_money, 'Price', '\$${product.price.toStringAsFixed(2)}'),
+                  _buildInfoRow(Icons.attach_money, 'Цена', '${product.price.toStringAsFixed(0)} ₸'),
                   if (product.categoryName != null) ...[
                     const SizedBox(height: 12),
-                    _buildInfoRow(Icons.category, 'Category', product.categoryName!),
+                    _buildInfoRow(Icons.category, 'Категория', product.categoryName!),
                   ],
                 ],
               ),
@@ -158,7 +158,7 @@ class ProductDetailScreen extends ConsumerWidget {
 
             // Action Buttons
             const Text(
-              'Actions',
+              'Действия',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class ProductDetailScreen extends ConsumerWidget {
             _buildActionButton(
               context,
               icon: Icons.image,
-              label: 'Upload Image',
+              label: 'Загрузить фото',
               color: const Color(0xFF60A5FA),
               onPressed: () => _onUploadPressed(context, ref, product),
             ),
@@ -179,7 +179,7 @@ class ProductDetailScreen extends ConsumerWidget {
             _buildActionButton(
               context,
               icon: Icons.edit,
-              label: 'Adjust Stock',
+              label: 'Изменить запас',
               color: const Color(0xFF86EFAC),
               onPressed: () => Navigator.push(
                 context,
@@ -191,7 +191,7 @@ class ProductDetailScreen extends ConsumerWidget {
             _buildActionButton(
               context,
               icon: Icons.history,
-              label: 'View History',
+              label: 'История изменений',
               color: const Color(0xFFA78BFA),
               onPressed: () => Navigator.push(
                 context,
@@ -203,7 +203,7 @@ class ProductDetailScreen extends ConsumerWidget {
             _buildActionButton(
               context,
               icon: Icons.delete,
-              label: 'Delete Product',
+              label: 'Удалить товар',
               color: const Color(0xFFFB7185),
               onPressed: () => _confirmAndDelete(context, ref, product),
             ),
@@ -359,16 +359,16 @@ class ProductDetailScreen extends ConsumerWidget {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text(
-          'Delete Product',
+          'Удалить товар',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         content: Text(
-          'Are you sure you want to permanently delete "${product.name}"? This cannot be undone.',
+          'Вы уверены, что хотите безвозвратно удалить "${product.name}"?',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel', style: TextStyle(color: Color(0xFF64748B))),
+            child: const Text('Отмена', style: TextStyle(color: Color(0xFF64748B))),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(ctx).pop(true),
@@ -376,7 +376,7 @@ class ProductDetailScreen extends ConsumerWidget {
               backgroundColor: const Color(0xFFFB7185),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: const Text('Delete'),
+            child: const Text('Удалить'),
           ),
         ],
       ),
@@ -386,7 +386,7 @@ class ProductDetailScreen extends ConsumerWidget {
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Deleting...'),
+        content: Text('Удаление...'),
         duration: Duration(milliseconds: 800),
       ),
     );
@@ -397,14 +397,14 @@ class ProductDetailScreen extends ConsumerWidget {
       context.go('/products');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Product deleted'),
+          content: Text('Товар удалён'),
           backgroundColor: Color(0xFF86EFAC),
         ),
       );
     } catch (e) {
       final msg = friendlyError(e);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Delete failed: $msg')),
+        SnackBar(content: Text('Ошибка удаления: $msg')),
       );
     }
   }

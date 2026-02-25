@@ -41,7 +41,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Image saved successfully'),
+          content: Text('Фото сохранено'),
           backgroundColor: Color(0xFF86EFAC),
         ),
       );
@@ -75,7 +75,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
           onPressed: () => context.pop(),
         ),
         title: const Text(
-          'Upload Image',
+          'Загрузить фото',
           style: TextStyle(
             color: Color(0xFF1E293B),
             fontSize: 20,
@@ -129,7 +129,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'No image selected',
+                      'Изображение не выбрано',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -138,7 +138,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
                     ),
                     const SizedBox(height: 4),
                     const Text(
-                      'Choose an image from gallery',
+                      'Выберите фото из галереи',
                       style: TextStyle(
                         fontSize: 13,
                         color: Color(0xFF94A3B8),
@@ -181,7 +181,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
                       Icon(Icons.photo_library, size: 22),
                       SizedBox(width: 8),
                       Text(
-                        'Choose Image',
+                        'Выбрать фото',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -241,7 +241,7 @@ class _UploadImageScreenState extends ConsumerState<UploadImageScreen> {
                       Icon(Icons.save, size: 22, color: _selectedFile == null ? Colors.grey[600] : Colors.white),
                       const SizedBox(width: 8),
                       Text(
-                        'Save Image',
+                        'Сохранить фото',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,

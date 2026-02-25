@@ -28,11 +28,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _submit() async {
     // Validate inputs
     if (_userCtrl.text.trim().isEmpty) {
-      setState(() => _error = 'Username is required');
+      setState(() => _error = 'Введите имя пользователя');
       return;
     }
     if (_passCtrl.text.isEmpty) {
-      setState(() => _error = 'Password is required');
+      setState(() => _error = 'Введите пароль');
       return;
     }
 
@@ -51,7 +51,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (token != null) {
         if (mounted) GoRouter.of(context).go('/products');
       } else {
-        setState(() => _error = 'Invalid login or password');
+        setState(() => _error = 'Неверный логин или пароль');
       }
     } catch (e) {
       setState(() => _error = friendlyError(e));
@@ -106,7 +106,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                   // Welcome Text
                   const Text(
-                    'Welcome Back!',
+                    'Добро пожаловать!',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -115,7 +115,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Sign in to continue',
+                    'Войдите, чтобы продолжить',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white.withOpacity(0.9),
@@ -142,8 +142,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         // Username Field
                         _buildModernTextField(
                           controller: _userCtrl,
-                          label: 'Username',
-                          hint: 'Enter your username',
+                          label: 'Имя пользователя',
+                          hint: 'Введите логин',
                           icon: Icons.person_outline,
                         ),
                         const SizedBox(height: 20),
@@ -153,7 +153,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Password',
+                              'Пароль',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -178,7 +178,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   color: Color(0xFF1E293B),
                                 ),
                                 decoration: InputDecoration(
-                                  hintText: 'Enter your password',
+                                  hintText: 'Введите пароль',
                                   hintStyle: const TextStyle(
                                     color: Color(0xFF94A3B8),
                                     fontSize: 14,
@@ -297,7 +297,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 Icon(Icons.login, size: 22),
                                 SizedBox(width: 8),
                                 Text(
-                                  'Sign In',
+                                  'Войти',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -316,7 +316,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "Don't have an account? ",
+                        "Нет аккаунта? ",
                         style: TextStyle(
                           color: Color(0xFF64748B),
                           fontSize: 14,
@@ -325,7 +325,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       GestureDetector(
                         onTap: () => context.go('/register'),
                         child: const Text(
-                          'Sign Up',
+                          'Регистрация',
                           style: TextStyle(
                             color: Color(0xFF1E293B),
                             fontSize: 14,
@@ -338,7 +338,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   TextButton(
                     onPressed: () => context.go('/forgot-password'),
                     child: const Text(
-                      'Forgot Password?',
+                      'Забыли пароль?',
                       style: TextStyle(
                         color: Color(0xFF1E293B),
                         fontSize: 14,

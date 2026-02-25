@@ -76,7 +76,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             onSubmitted: (_) => _onSubmit(),
             style: const TextStyle(fontSize: 15),
             decoration: const InputDecoration(
-              hintText: 'Search products...',
+              hintText: 'Поиск товаров...',
               hintStyle: TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
               prefixIcon: Icon(Icons.search, color: Color(0xFF60A5FA), size: 20),
               border: InputBorder.none,
@@ -137,7 +137,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       ),
                       const SizedBox(width: 12),
                       const Text(
-                        'Sort By',
+                        'Сортировка',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -151,12 +151,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      _buildSortChip('Name ↑', 'name,asc', Icons.sort_by_alpha),
-                      _buildSortChip('Name ↓', 'name,desc', Icons.sort_by_alpha),
-                      _buildSortChip('Price ↑', 'price,asc', Icons.arrow_upward),
-                      _buildSortChip('Price ↓', 'price,desc', Icons.arrow_downward),
-                      _buildSortChip('Stock ↑', 'currentStock,asc', Icons.trending_up),
-                      _buildSortChip('Stock ↓', 'currentStock,desc', Icons.trending_down),
+                      _buildSortChip('Название ↑', 'name,asc', Icons.sort_by_alpha),
+                      _buildSortChip('Название ↓', 'name,desc', Icons.sort_by_alpha),
+                      _buildSortChip('Цена ↑', 'price,asc', Icons.arrow_upward),
+                      _buildSortChip('Цена ↓', 'price,desc', Icons.arrow_downward),
+                      _buildSortChip('Запас ↑', 'currentStock,asc', Icons.trending_up),
+                      _buildSortChip('Запас ↓', 'currentStock,desc', Icons.trending_down),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -172,7 +172,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       ),
                       const SizedBox(width: 12),
                       const Text(
-                        'Category',
+                        'Категория',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E293B)),
                       ),
                     ],
@@ -186,12 +186,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           spacing: 8,
                           runSpacing: 8,
                           children: [
-                            _buildCategoryChip('All', null),
+                            _buildCategoryChip('Все', null),
                             ...cats.map((c) => _buildCategoryChip(c.name, c.id)),
                           ],
                         ),
                         loading: () => const SizedBox(height: 32, child: Center(child: CircularProgressIndicator(strokeWidth: 2))),
-                        error: (_, __) => const Text('Could not load categories'),
+                        error: (_, __) => const Text('Ошибка загрузки категорий'),
                       );
                     },
                   ),
@@ -224,7 +224,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         ),
                         const SizedBox(height: 24),
                         const Text(
-                          'No results found',
+                          'Ничего не найдено',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -233,7 +233,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         ),
                         const SizedBox(height: 8),
                         const Text(
-                          'Try different keywords',
+                          'Попробуйте другие слова',
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF64748B),
@@ -282,7 +282,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                   ),
                                   icon: const Icon(Icons.expand_more, size: 20),
                                   label: const Text(
-                                    'Load more',
+                                    'Загрузить ещё',
                                     style: TextStyle(fontWeight: FontWeight.w600),
                                   ),
                                 ),
@@ -347,7 +347,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
-                                          'Stock: ${p.currentStock} • SKU: ${p.sku}',
+                                          'Запас: ${p.currentStock} • Арт.: ${p.sku}',
                                           style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
                                         ),
                                       ],

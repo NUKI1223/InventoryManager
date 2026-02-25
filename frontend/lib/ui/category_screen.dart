@@ -30,7 +30,7 @@ class CategoryScreen extends ConsumerWidget {
           onPressed: () => context.pop(),
         ),
         title: const Text(
-          'Categories',
+          'Категории',
           style: TextStyle(
             color: Color(0xFF1E293B),
             fontSize: 20,
@@ -59,7 +59,7 @@ class CategoryScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 24),
                   const Text(
-                    'No categories yet',
+                    'Нет категорий',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -68,7 +68,7 @@ class CategoryScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Add your first category',
+                    'Добавьте первую категорию',
                     style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
                   ),
                 ],
@@ -102,7 +102,7 @@ class CategoryScreen extends ConsumerWidget {
               ElevatedButton.icon(
                 onPressed: () => ref.invalidate(categoryListProvider),
                 icon: const Icon(Icons.refresh),
-                label: const Text('Retry'),
+                label: const Text('Повторить'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF60A5FA),
                 ),
@@ -143,14 +143,14 @@ class CategoryScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Add Category', style: TextStyle(fontSize: 18)),
+        title: const Text('Добавить категорию', style: TextStyle(fontSize: 18)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: nameCtrl,
               decoration: const InputDecoration(
-                labelText: 'Name',
+                labelText: 'Название',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -158,7 +158,7 @@ class CategoryScreen extends ConsumerWidget {
             TextField(
               controller: descCtrl,
               decoration: const InputDecoration(
-                labelText: 'Description',
+                labelText: 'Описание',
                 border: OutlineInputBorder(),
               ),
               maxLines: 2,
@@ -168,33 +168,33 @@ class CategoryScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: const Text('Отмена'),
           ),
           ElevatedButton(
             onPressed: () async {
               final name = nameCtrl.text.trim();
               if (name.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Category name is required')),
+                  const SnackBar(content: Text('Введите название категории')),
                 );
                 return;
               }
               if (name.length < 2) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Name must be at least 2 characters')),
+                  const SnackBar(content: Text('Минимум 2 символа')),
                 );
                 return;
               }
               if (name.length > 50) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Name must be less than 50 characters')),
+                  const SnackBar(content: Text('Не более 50 символов')),
                 );
                 return;
               }
               final desc = descCtrl.text.trim();
               if (desc.isNotEmpty && desc.length > 200) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Description must be less than 200 characters')),
+                  const SnackBar(content: Text('Описание: не более 200 символов')),
                 );
                 return;
               }
@@ -207,7 +207,7 @@ class CategoryScreen extends ConsumerWidget {
                 Navigator.pop(ctx);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Category created'),
+                    content: Text('Категория создана'),
                     backgroundColor: Color(0xFF10B981),
                   ),
                 );
@@ -221,7 +221,7 @@ class CategoryScreen extends ConsumerWidget {
               backgroundColor: const Color(0xFF60A5FA),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: const Text('Create'),
+            child: const Text('Создать'),
           ),
         ],
       ),
@@ -306,14 +306,14 @@ class _CategoryCard extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Edit Category', style: TextStyle(fontSize: 18)),
+        title: const Text('Редактировать категорию', style: TextStyle(fontSize: 18)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: nameCtrl,
               decoration: const InputDecoration(
-                labelText: 'Name',
+                labelText: 'Название',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -321,7 +321,7 @@ class _CategoryCard extends ConsumerWidget {
             TextField(
               controller: descCtrl,
               decoration: const InputDecoration(
-                labelText: 'Description',
+                labelText: 'Описание',
                 border: OutlineInputBorder(),
               ),
               maxLines: 2,
@@ -331,33 +331,33 @@ class _CategoryCard extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: const Text('Отмена'),
           ),
           ElevatedButton(
             onPressed: () async {
               final name = nameCtrl.text.trim();
               if (name.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Category name is required')),
+                  const SnackBar(content: Text('Введите название категории')),
                 );
                 return;
               }
               if (name.length < 2) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Name must be at least 2 characters')),
+                  const SnackBar(content: Text('Минимум 2 символа')),
                 );
                 return;
               }
               if (name.length > 50) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Name must be less than 50 characters')),
+                  const SnackBar(content: Text('Не более 50 символов')),
                 );
                 return;
               }
               final desc = descCtrl.text.trim();
               if (desc.isNotEmpty && desc.length > 200) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Description must be less than 200 characters')),
+                  const SnackBar(content: Text('Описание: не более 200 символов')),
                 );
                 return;
               }
@@ -371,7 +371,7 @@ class _CategoryCard extends ConsumerWidget {
                 Navigator.pop(ctx);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Category updated'),
+                    content: Text('Категория обновлена'),
                     backgroundColor: Color(0xFF10B981),
                   ),
                 );
@@ -385,7 +385,7 @@ class _CategoryCard extends ConsumerWidget {
               backgroundColor: const Color(0xFF60A5FA),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: const Text('Save'),
+            child: const Text('Сохранить'),
           ),
         ],
       ),
@@ -397,12 +397,12 @@ class _CategoryCard extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Delete Category', style: TextStyle(fontSize: 18)),
-        content: Text('Are you sure you want to delete "${category.name}"?'),
+        title: const Text('Удалить категорию', style: TextStyle(fontSize: 18)),
+        content: Text('Вы уверены, что хотите удалить "${category.name}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: const Text('Отмена'),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -412,7 +412,7 @@ class _CategoryCard extends ConsumerWidget {
                 Navigator.pop(ctx);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Category deleted'),
+                    content: Text('Категория удалена'),
                     backgroundColor: Color(0xFF10B981),
                   ),
                 );
@@ -426,7 +426,7 @@ class _CategoryCard extends ConsumerWidget {
               backgroundColor: const Color(0xFFFB7185),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: const Text('Delete'),
+            child: const Text('Удалить'),
           ),
         ],
       ),

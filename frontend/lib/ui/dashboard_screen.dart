@@ -22,7 +22,7 @@ class DashboardScreen extends ConsumerWidget {
           ),
           onPressed: () => context.pop(),
         ),
-        title: const Text('Dashboard'),
+        title: const Text('Главная'),
         backgroundColor: Colors.blue,
       ),
       body: RefreshIndicator(
@@ -132,7 +132,7 @@ class DashboardScreen extends ConsumerWidget {
                               ),
                               _buildStatChip(
                                 Icons.attach_money,
-                                '${totalValue.toStringAsFixed(0)} ₽',
+                                '${totalValue.toStringAsFixed(0)} ₸',
                                 Colors.orange,
                               ),
                             ],

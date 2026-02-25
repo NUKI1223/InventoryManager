@@ -51,7 +51,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
           onPressed: () => context.pop(),
         ),
         title: const Text(
-          'History',
+          'История',
           style: TextStyle(
             color: Color(0xFF1E293B),
             fontSize: 20,
@@ -92,9 +92,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                       controller: _actionCtrl,
                       style: const TextStyle(fontSize: 15),
                       decoration: const InputDecoration(
-                        labelText: 'Filter by action',
+                        labelText: 'Фильтр по действию',
                         labelStyle: TextStyle(color: Color(0xFF64748B), fontSize: 13),
-                        hintText: 'e.g. CREATE, UPDATE',
+                        hintText: 'напр. CREATE, UPDATE',
                         hintStyle: TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
                         prefixIcon: Icon(Icons.filter_list, color: Color(0xFF60A5FA), size: 20),
                         border: InputBorder.none,
@@ -130,7 +130,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: const Text(
-                      'Filter',
+                      'Фильтр',
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -162,7 +162,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         ),
                         const SizedBox(height: 24),
                         const Text(
-                          'No history',
+                          'История пуста',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -171,7 +171,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                         ),
                         const SizedBox(height: 8),
                         const Text(
-                          'No records found',
+                          'Нет записей',
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF64748B),
@@ -197,7 +197,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                             ),
                             child: const Text(
-                              'Load more',
+                              'Загрузить ещё',
                               style: TextStyle(color: Color(0xFF60A5FA), fontWeight: FontWeight.w600),
                             ),
                           ),
@@ -242,7 +242,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  'Product #${r.productId ?? '-'}',
+                                  'Товар #${r.productId ?? '-'}',
                                   style: const TextStyle(
                                     fontSize: 12,
                                     color: Color(0xFF64748B),

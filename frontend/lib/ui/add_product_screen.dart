@@ -36,71 +36,71 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
 
   String? _validateName(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Product name is required';
+      return 'Название обязательно';
     }
     if (value.trim().length < 2) {
-      return 'Name must be at least 2 characters';
+      return 'Минимум 2 символа';
     }
     if (value.trim().length > 100) {
-      return 'Name must be less than 100 characters';
+      return 'Не более 100 символов';
     }
     return null;
   }
 
   String? _validateSKU(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'SKU is required';
+      return 'Артикул обязателен';
     }
     if (value.trim().length < 2) {
-      return 'SKU must be at least 2 characters';
+      return 'Артикул: минимум 2 символа';
     }
     if (value.trim().length > 50) {
-      return 'SKU must be less than 50 characters';
+      return 'Артикул: не более 50 символов';
     }
     // Check if SKU contains only alphanumeric and dash/underscore
     final skuRegex = RegExp(r'^[a-zA-Z0-9_-]+$');
     if (!skuRegex.hasMatch(value.trim())) {
-      return 'SKU can only contain letters, numbers, - and _';
+      return 'Только буквы, цифры, - и _';
     }
     return null;
   }
 
   String? _validateStock(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Stock quantity is required';
+      return 'Количество обязательно';
     }
     final stock = int.tryParse(value.trim());
     if (stock == null) {
-      return 'Please enter a valid number';
+      return 'Введите корректное число';
     }
     if (stock < 0) {
-      return 'Stock cannot be negative';
+      return 'Количество не может быть отрицательным';
     }
     if (stock > 1000000) {
-      return 'Stock cannot exceed 1,000,000';
+      return 'Не более 1 000 000';
     }
     return null;
   }
 
   String? _validatePrice(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Price is required';
+      return 'Цена обязательна';
     }
     final price = double.tryParse(value.trim());
     if (price == null) {
-      return 'Please enter a valid price';
+      return 'Введите корректную цену';
     }
     if (price < 0) {
-      return 'Price cannot be negative';
+      return 'Цена не может быть отрицательной';
     }
     if (price > 1000000) {
-      return 'Price cannot exceed 1,000,000';
+      return 'Цена не более 1 000 000';
     }
     // Check for reasonable decimal places
     if (value.contains('.')) {
       final parts = value.split('.');
       if (parts.length > 1 && parts[1].length > 2) {
-        return 'Price can have maximum 2 decimal places';
+        return 'Максимум 2 знака после запятой';
       }
     }
     return null;
@@ -114,7 +114,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please fix the errors in the form'),
+          content: Text('Исправьте ошибки в форме'),
           backgroundColor: Color(0xFFFB7185),
           behavior: SnackBarBehavior.floating,
         ),
@@ -156,7 +156,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                 ),
                 const SizedBox(width: 12),
                 const Text(
-                  'Product added successfully!',
+                  'Товар успешно добавлен!',
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ],
@@ -217,7 +217,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
           onPressed: () => context.pop(),
         ),
         title: const Text(
-          'Add Product',
+          'Добавить товар',
           style: TextStyle(
             color: Color(0xFF1E293B),
             fontSize: 20,
@@ -279,25 +279,25 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                   children: [
                     _buildModernTextField(
                       controller: _nameCtrl,
-                      label: 'Product Name',
-                      hint: 'e.g., Laptop Dell XPS 15',
+                      label: 'Название товара',
+                      hint: 'напр., Ноутбук Dell',
                       icon: Icons.label,
                       validator: _validateName,
                     ),
                     const SizedBox(height: 20),
                     _buildModernTextField(
                       controller: _skuCtrl,
-                      label: 'SKU',
-                      hint: 'e.g., LAPTOP-001',
+                      label: 'Артикул (SKU)',
+                      hint: 'напр., SKU-001',
                       icon: Icons.qr_code,
                       validator: _validateSKU,
-                      helperText: 'Only letters, numbers, - and _',
+                      helperText: 'Только буквы, цифры, - и _',
                     ),
                     const SizedBox(height: 20),
                     _buildModernTextField(
                       controller: _stockCtrl,
-                      label: 'Stock Quantity',
-                      hint: 'e.g., 100',
+                      label: 'Количество',
+                      hint: 'напр., 100',
                       icon: Icons.inventory,
                       keyboardType: TextInputType.number,
                       validator: _validateStock,
@@ -305,12 +305,12 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                     const SizedBox(height: 20),
                     _buildModernTextField(
                       controller: _priceCtrl,
-                      label: 'Price',
-                      hint: 'e.g., 1299.99',
+                      label: 'Цена (₸)',
+                      hint: 'напр., 1299.99',
                       icon: Icons.attach_money,
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       validator: _validatePrice,
-                      helperText: 'Maximum 2 decimal places',
+                      helperText: 'Максимум 2 знака после запятой',
                     ),
                     const SizedBox(height: 20),
                     _buildCategoryDropdown(),
@@ -360,7 +360,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                       Icon(Icons.add_circle_outline, size: 22),
                       SizedBox(width: 8),
                       Text(
-                        'Add Product',
+                        'Добавить товар',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -414,9 +414,9 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               ),
-              hint: const Text('Select category', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 14)),
+              hint: const Text('Выберите категорию', style: TextStyle(color: Color(0xFF94A3B8), fontSize: 14)),
               items: [
-                const DropdownMenuItem<int?>(value: null, child: Text('No category')),
+                const DropdownMenuItem<int?>(value: null, child: Text('Без категории')),
                 ...categories.map((c) => DropdownMenuItem<int?>(
                       value: c.id,
                       child: Text(c.name),
@@ -434,7 +434,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Could not load categories: ${friendlyError(e)}',
+                    'Ошибка загрузки категорий: ${friendlyError(e)}',
                     style: const TextStyle(color: Color(0xFFFB7185)),
                     textAlign: TextAlign.center,
                   ),
@@ -442,7 +442,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                   TextButton.icon(
                     onPressed: () => ref.invalidate(categoryListProvider),
                     icon: const Icon(Icons.refresh, size: 16),
-                    label: const Text('Retry'),
+                    label: const Text('Повторить'),
                   ),
                 ],
               ),

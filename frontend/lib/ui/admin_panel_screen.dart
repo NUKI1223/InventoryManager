@@ -42,7 +42,7 @@ class _AdminPanelScreenState extends ConsumerState<AdminPanelScreen> {
         title: Row(
           children: [
             const Text(
-              'Admin Panel',
+              'Панель администратора',
               style: TextStyle(
                 color: Color(0xFF1E293B),
                 fontSize: 20,
@@ -58,7 +58,7 @@ class _AdminPanelScreenState extends ConsumerState<AdminPanelScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  _selectedIndex == 0 ? 'Users' : 'Resets',
+                  _selectedIndex == 0 ? 'Пользователи' : 'Сбросы',
                   style: const TextStyle(
                     color: Color(0xFF60A5FA),
                     fontSize: 12,
@@ -86,7 +86,7 @@ class _AdminPanelScreenState extends ConsumerState<AdminPanelScreen> {
                 ),
               ),
               onPressed: () => setState(() => _selectedIndex = _selectedIndex == 0 ? 1 : 0),
-              tooltip: _selectedIndex == 0 ? 'Password Resets' : 'Users',
+              tooltip: _selectedIndex == 0 ? 'Сбросы пароля' : 'Пользователи',
             ),
           IconButton(
             icon: Container(
@@ -98,7 +98,7 @@ class _AdminPanelScreenState extends ConsumerState<AdminPanelScreen> {
               child: const Icon(Icons.logout, color: Color(0xFFFB7185), size: 20),
             ),
             onPressed: () => context.pop(),
-            tooltip: 'Logout',
+            tooltip: 'Выйти',
           ),
           const SizedBox(width: 8),
         ],
@@ -147,8 +147,8 @@ class _AdminPanelScreenState extends ConsumerState<AdminPanelScreen> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                _buildDrawerItem(0, Icons.people, 'Users'),
-                _buildDrawerItem(1, Icons.lock_reset, 'Password Resets'),
+                _buildDrawerItem(0, Icons.people, 'Пользователи'),
+                _buildDrawerItem(1, Icons.lock_reset, 'Сбросы пароля'),
               ],
             ),
           ),
@@ -166,8 +166,8 @@ class _AdminPanelScreenState extends ConsumerState<AdminPanelScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                _buildNavItem(0, Icons.people, 'Users'),
-                _buildNavItem(1, Icons.lock_reset, 'Password Resets'),
+                _buildNavItem(0, Icons.people, 'Пользователи'),
+                _buildNavItem(1, Icons.lock_reset, 'Сбросы пароля'),
               ],
             ),
           ),
@@ -278,7 +278,7 @@ class _UsersTab extends ConsumerWidget {
     return asyncUsers.when(
       data: (users) {
         if (users.isEmpty) {
-          return const Center(child: Text('No users found'));
+          return const Center(child: Text('Пользователи не найдены'));
         }
         return ListView.builder(
           padding: const EdgeInsets.all(12),
@@ -309,7 +309,7 @@ class _UsersTab extends ConsumerWidget {
               ElevatedButton.icon(
                 onPressed: () => ref.invalidate(usersProvider),
                 icon: const Icon(Icons.refresh),
-                label: const Text('Retry'),
+                label: const Text('Повторить'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF60A5FA),
                 ),
@@ -420,7 +420,7 @@ class _UserCard extends ConsumerWidget {
               Expanded(
                 child: _ActionButton(
                   icon: Icons.lock_reset,
-                  label: 'Reset',
+                  label: 'Сброс',
                   color: const Color(0xFFF59E0B),
                   onTap: () => _showResetPasswordDialog(context, ref, user),
                 ),
@@ -429,7 +429,7 @@ class _UserCard extends ConsumerWidget {
               Expanded(
                 child: _ActionButton(
                   icon: Icons.delete,
-                  label: 'Delete',
+                  label: 'Удалить',
                   color: const Color(0xFFFB7185),
                   onTap: () => _showDeleteDialog(context, ref, user),
                 ),
@@ -464,7 +464,7 @@ class _UserCard extends ConsumerWidget {
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setState) => AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: const Text('Edit User', style: TextStyle(fontSize: 18)),
+          title: const Text('Редактировать пользователя', style: TextStyle(fontSize: 18)),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -472,7 +472,7 @@ class _UserCard extends ConsumerWidget {
                 TextField(
                   controller: usernameCtrl,
                   decoration: const InputDecoration(
-                    labelText: 'Username',
+                    labelText: 'Имя пользователя',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -480,7 +480,7 @@ class _UserCard extends ConsumerWidget {
                 TextField(
                   controller: fullNameCtrl,
                   decoration: const InputDecoration(
-                    labelText: 'Full Name',
+                    labelText: 'Полное имя',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -488,7 +488,7 @@ class _UserCard extends ConsumerWidget {
                 DropdownButtonFormField<String>(
                   value: selectedRole,
                   decoration: const InputDecoration(
-                    labelText: 'Role',
+                    labelText: 'Роль',
                     border: OutlineInputBorder(),
                   ),
                   items: ['ADMIN', 'OPERATOR', 'VIEWER', 'USER']
@@ -504,7 +504,7 @@ class _UserCard extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel'),
+              child: const Text('Отмена'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -513,25 +513,25 @@ class _UserCard extends ConsumerWidget {
 
                 if (username.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Username is required')),
+                    const SnackBar(content: Text('Введите имя пользователя')),
                   );
                   return;
                 }
                 if (username.length < 3 || username.length > 50) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Username must be 3-50 characters')),
+                    const SnackBar(content: Text('Логин: 3-50 символов')),
                   );
                   return;
                 }
                 if (fullName.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Full name is required')),
+                    const SnackBar(content: Text('Введите полное имя')),
                   );
                   return;
                 }
                 if (fullName.length < 2 || fullName.length > 100) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Full name must be 2-100 characters')),
+                    const SnackBar(content: Text('Полное имя: 2-100 символов')),
                   );
                   return;
                 }
@@ -546,7 +546,7 @@ class _UserCard extends ConsumerWidget {
                   Navigator.pop(ctx);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('User updated successfully'),
+                      content: Text('Пользователь обновлён'),
                       backgroundColor: Color(0xFF86EFAC),
                     ),
                   );
@@ -560,7 +560,7 @@ class _UserCard extends ConsumerWidget {
                 backgroundColor: const Color(0xFF60A5FA),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
-              child: const Text('Save'),
+              child: const Text('Сохранить'),
             ),
           ],
         ),
@@ -576,7 +576,7 @@ class _UserCard extends ConsumerWidget {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          'Reset Password',
+          'Сброс пароля',
           style: const TextStyle(fontSize: 18),
         ),
         content: Column(
@@ -595,8 +595,8 @@ class _UserCard extends ConsumerWidget {
               controller: passwordCtrl,
               obscureText: true,
               decoration: const InputDecoration(
-                labelText: 'New Password',
-                hintText: 'Min. 6 characters',
+                labelText: 'Новый пароль',
+                hintText: 'Мин. 6 символов',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -605,13 +605,13 @@ class _UserCard extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: const Text('Отмена'),
           ),
           ElevatedButton(
             onPressed: () async {
               if (passwordCtrl.text.length < 6) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Password must be at least 6 characters')),
+                  const SnackBar(content: Text('Пароль: минимум 6 символов')),
                 );
                 return;
               }
@@ -620,7 +620,7 @@ class _UserCard extends ConsumerWidget {
                 Navigator.pop(ctx);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Password reset successfully'),
+                    content: Text('Пароль сброшен успешно'),
                     backgroundColor: Color(0xFF86EFAC),
                   ),
                 );
@@ -634,7 +634,7 @@ class _UserCard extends ConsumerWidget {
               backgroundColor: const Color(0xFFF59E0B),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: const Text('Reset'),
+            child: const Text('Сбросить'),
           ),
         ],
       ),
@@ -647,11 +647,11 @@ class _UserCard extends ConsumerWidget {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Text('Delete User', style: TextStyle(fontSize: 18)),
-        content: Text('Are you sure you want to delete ${user.username}?'),
+        content: Text('Удалить пользователя ${user.username}?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: const Text('Отмена'),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -661,7 +661,7 @@ class _UserCard extends ConsumerWidget {
                 Navigator.pop(ctx);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('User deleted'),
+                    content: Text('Пользователь удалён'),
                     backgroundColor: Color(0xFF86EFAC),
                   ),
                 );
@@ -675,7 +675,7 @@ class _UserCard extends ConsumerWidget {
               backgroundColor: const Color(0xFFFB7185),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: const Text('Delete'),
+            child: const Text('Удалить'),
           ),
         ],
       ),
@@ -759,7 +759,7 @@ class _PasswordResetsTab extends ConsumerWidget {
                 ),
                 const SizedBox(height: 24),
                 const Text(
-                  'No Pending Requests',
+                  'Нет ожидающих запросов',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -852,7 +852,7 @@ class _PasswordResetsTab extends ConsumerWidget {
                         ),
                       ),
                       child: const Text(
-                        'Reset Password',
+                        'Сброс пароля',
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -883,7 +883,7 @@ class _PasswordResetsTab extends ConsumerWidget {
               ElevatedButton.icon(
                 onPressed: () => ref.invalidate(passwordResetsProvider),
                 icon: const Icon(Icons.refresh),
-                label: const Text('Retry'),
+                label: const Text('Повторить'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF60A5FA),
                 ),
@@ -902,7 +902,7 @@ class _PasswordResetsTab extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Reset Password', style: TextStyle(fontSize: 18)),
+        title: const Text('Сброс пароля', style: TextStyle(fontSize: 18)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -919,8 +919,8 @@ class _PasswordResetsTab extends ConsumerWidget {
               controller: passwordCtrl,
               obscureText: true,
               decoration: const InputDecoration(
-                labelText: 'New Password',
-                hintText: 'Min. 6 characters',
+                labelText: 'Новый пароль',
+                hintText: 'Мин. 6 символов',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -929,13 +929,13 @@ class _PasswordResetsTab extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: const Text('Отмена'),
           ),
           ElevatedButton(
             onPressed: () async {
               if (passwordCtrl.text.length < 6) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Password must be at least 6 characters')),
+                  const SnackBar(content: Text('Пароль: минимум 6 символов')),
                 );
                 return;
               }
@@ -946,7 +946,7 @@ class _PasswordResetsTab extends ConsumerWidget {
                 Navigator.pop(ctx);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Password reset successfully'),
+                    content: Text('Пароль сброшен успешно'),
                     backgroundColor: Color(0xFF86EFAC),
                   ),
                 );
@@ -960,7 +960,7 @@ class _PasswordResetsTab extends ConsumerWidget {
               backgroundColor: const Color(0xFF60A5FA),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: const Text('Reset'),
+            child: const Text('Сбросить'),
           ),
         ],
       ),

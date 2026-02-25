@@ -33,19 +33,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Future<void> _submit() async {
     // Validation
     if (_fullNameCtrl.text.trim().isEmpty) {
-      setState(() => _error = 'Please enter your full name');
+      setState(() => _error = 'Введите полное имя');
       return;
     }
     if (_userCtrl.text.trim().isEmpty) {
-      setState(() => _error = 'Please enter a username');
+      setState(() => _error = 'Введите имя пользователя');
       return;
     }
     if (_passCtrl.text.length < 6) {
-      setState(() => _error = 'Password must be at least 6 characters');
+      setState(() => _error = 'Пароль: минимум 6 символов');
       return;
     }
     if (_passCtrl.text != _confirmPassCtrl.text) {
-      setState(() => _error = 'Passwords do not match');
+      setState(() => _error = 'Пароли не совпадают');
       return;
     }
 
@@ -65,7 +65,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       if (token != null) {
         if (mounted) GoRouter.of(context).go('/products');
       } else {
-        setState(() => _error = 'Registration failed');
+        setState(() => _error = 'Ошибка регистрации');
       }
     } catch (e) {
       setState(() => _error = friendlyError(e));
@@ -120,7 +120,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                   // Welcome Text
                   const Text(
-                    'Create Account',
+                    'Создать аккаунт',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Sign up to get started',
+                    'Зарегистрируйтесь',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white.withOpacity(0.9),
@@ -156,8 +156,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         // Full Name Field
                         _buildModernTextField(
                           controller: _fullNameCtrl,
-                          label: 'Full Name',
-                          hint: 'Enter your full name',
+                          label: 'Полное имя',
+                          hint: 'Введите имя',
                           icon: Icons.badge_outlined,
                         ),
                         const SizedBox(height: 20),
@@ -165,8 +165,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         // Username Field
                         _buildModernTextField(
                           controller: _userCtrl,
-                          label: 'Username',
-                          hint: 'Choose a username',
+                          label: 'Имя пользователя',
+                          hint: 'Придумайте логин',
                           icon: Icons.person_outline,
                         ),
                         const SizedBox(height: 20),
@@ -174,8 +174,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         // Password Field
                         _buildPasswordField(
                           controller: _passCtrl,
-                          label: 'Password',
-                          hint: 'Create a password',
+                          label: 'Пароль',
+                          hint: 'Придумайте пароль',
                           obscure: _obscurePassword,
                           onToggle: () => setState(() => _obscurePassword = !_obscurePassword),
                         ),
@@ -184,8 +184,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         // Confirm Password Field
                         _buildPasswordField(
                           controller: _confirmPassCtrl,
-                          label: 'Confirm Password',
-                          hint: 'Re-enter your password',
+                          label: 'Подтвердите пароль',
+                          hint: 'Повторите пароль',
                           obscure: _obscureConfirmPassword,
                           onToggle: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
                         ),
@@ -266,7 +266,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 Icon(Icons.person_add, size: 22),
                                 SizedBox(width: 8),
                                 Text(
-                                  'Create Account',
+                                  'Создать аккаунт',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -284,7 +284,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Already have an account? ',
+                              'Уже есть аккаунт? ',
                               style: TextStyle(
                                 color: Color(0xFF64748B),
                                 fontSize: 14,
@@ -293,7 +293,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             GestureDetector(
                               onTap: () => context.go('/'),
                               child: const Text(
-                                'Sign In',
+                                'Войти',
                                 style: TextStyle(
                                   color: Color(0xFF60A5FA),
                                   fontSize: 14,
