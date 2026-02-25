@@ -9,7 +9,7 @@ class ApiClient {
   late final DioCacheInterceptor cacheInterceptor;
 
   ApiClient(this.dio, this.storage) {
-    dio.options.baseUrl = 'http://localhost:9000';
+    dio.options.baseUrl = 'http://10.48.201.82:9000';
 
     // Setup cache
     cacheStore = MemCacheStore();

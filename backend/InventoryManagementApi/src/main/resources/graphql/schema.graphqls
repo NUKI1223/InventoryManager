@@ -1,3 +1,5 @@
+scalar Long
+
 type Query {
     products(
         page: Int = 0,
