@@ -7,32 +7,23 @@ String friendlyError(Object e) {
       final status = e.response?.statusCode;
       final data = e.response?.data;
 
-
-// Authorization errors -> friendly message
-      if (status == 401 || status == 403) return 'Invalid login or password';
-
-
-// Server errors
-      if (status != null && status >= 500) return 'Server error. Please try again later.';
-
-
-// If server sent structured message
+      // Сначала читаем сообщение из тела ответа
       if (data is Map) {
         if (data['message'] != null) return data['message'].toString();
         if (data['error'] != null) return data['error'].toString();
       }
-
-
       if (data is String && data.isNotEmpty) return data;
 
+      // Фолбэк по статус-коду
+      if (status == 401 || status == 403) return 'Неверный логин или пароль';
+      if (status == 404) return 'Не найдено';
+      if (status != null && status >= 500) return 'Ошибка сервера. Попробуйте позже.';
 
-      return 'Request failed (status: ${status ?? 'unknown'})';
+      return 'Ошибка запроса (статус: ${status ?? 'неизвестен'})';
     }
 
-
-// Fallback for other exceptions
     return e.toString();
   } catch (_) {
-    return 'An unexpected error occurred';
+    return 'Неожиданная ошибка';
   }
 }
